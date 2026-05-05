@@ -99,8 +99,19 @@
         #powered-text:active { color: #ff5555; cursor: grabbing; text-shadow: 0 0 10px rgba(255,85,85,0.5); }
         .lego-locked { cursor: not-allowed !important; color: #50fa7b !important; text-shadow: none !important; }
 
-        /* EASTER EGG: LEGO OVERLAY */
-        #lego-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 10008; pointer-events: none; background: #000; }
+        /* EASTER EGG: LEGO OVERLAY (MENOR E CENTRALIZADO) */
+        #lego-overlay { 
+            display: none; 
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            width: 150px; /* Tamanho ajustado */
+            height: auto;
+            z-index: 10008; 
+            pointer-events: none; 
+            filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
+        }
 
         /* EASTER EGG: PEGASUS TERMINAL */
         #peg-terminal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px 20px; z-index: 10000; text-align: left; box-sizing: border-box; }
@@ -111,7 +122,7 @@
         .save-trigger { cursor: pointer; transition: color 0.3s; }
         .save-trigger:active { color: var(--text-color); }
 
-        /* EASTER EGG: XBOX ACHIEVEMENT (Animação Suave) */
+        /* EASTER EGG: XBOX ACHIEVEMENT */
         #xbox-achievement { 
             position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); 
             background: #107C10; color: white; display: flex; align-items: center; 
@@ -157,7 +168,7 @@
     <audio id="legoAudio" src="LEGO.mp3" preload="auto"></audio>
     
     <!-- EASTER EGG OVERLAYS -->
-    <img id="lego-overlay" src="lego.gif" alt="Reconstruindo a Matrix..." />
+    <img id="lego-overlay" src="lego.gif" alt="Reconstruindo..." />
 
     <div id="peg-terminal">
         <p>> [PEGASUS SYSTEM] INICIANDO PROTOCOLOS DE UNIÃO...</p>
@@ -258,9 +269,9 @@
         function saveData(key, value) { try { localStorage.setItem(key, value); } catch(e) { console.log("Memória protegida."); } }
 
         let isSystemDestroyed = false; 
-        let fusRoDahLocked = false; // Trava o easter egg de destruição
+        let fusRoDahLocked = false; 
 
-        // === FUS RO DAH + LEGO REBUILD ===
+        // === FUS RO DAH + LEGO REBUILD (Efeito de Construção) ===
         const poweredText = document.getElementById('powered-text');
         let fusTimer;
         
@@ -277,12 +288,12 @@
         function triggerFusRoDah() {
             if(fusRoDahLocked) return;
             isSystemDestroyed = true; 
-            fusRoDahLocked = true; // Trava para sempre
+            fusRoDahLocked = true; 
 
             document.getElementById('fusAudio').play().catch(e=>{});
             document.getElementById('arcade').style.display = 'none';
 
-            const elements = document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p');
+            const elements = Array.from(document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p'));
 
             // 1. O Grito (Destrói a página)
             setTimeout(() => {
@@ -299,34 +310,40 @@
                 document.body.style.overflow = 'hidden';
             }, 1100); 
 
-            // 2. A Reconstrução (Entra o GIF e Áudio de LEGO)
+            // 2. A Reconstrução Peça por Peça
             setTimeout(() => {
                 const overlay = document.getElementById('lego-overlay');
-                // Adiciona timestamp para forçar o GIF a reiniciar do frame 0
                 overlay.src = "lego.gif?" + new Date().getTime(); 
                 overlay.style.display = 'block';
                 
                 document.getElementById('legoAudio').play().catch(e=>{});
 
-                // Arruma a bagunça "por trás das cortinas" enquanto o GIF passa
-                elements.forEach(el => {
-                    el.style.transition = 'none'; // Sem transição para voltar num estalo
-                    el.style.transform = 'translate(0, 0) rotate(0deg)';
-                    el.style.opacity = '1';
-                    el.style.pointerEvents = 'auto';
+                // Traz os elementos de volta gradativamente simulando encaixes
+                const buildTime = 2500; // Tempo distribuído antes do "buum"
+                
+                elements.forEach((el, index) => {
+                    const delay = (index / elements.length) * buildTime;
+                    
+                    setTimeout(() => {
+                        // O 'steps' cria aquele efeito duro e robótico de bloco encaixando
+                        el.style.transition = 'transform 0.15s steps(2, end), opacity 0.15s';
+                        el.style.transform = 'translate(0, 0) rotate(0deg)';
+                        el.style.opacity = '1';
+                        el.style.pointerEvents = 'auto';
+                    }, delay);
                 });
+                
                 document.body.style.overflow = 'auto';
             }, 4000); 
 
-            // 3. O Fim do Processo (Buum do Lego e Site Normal)
+            // 3. O Fim do Processo (Buum do Lego)
             setTimeout(() => {
                 document.getElementById('lego-overlay').style.display = 'none';
-                isSystemDestroyed = false; // Libera o uso do site novamente
+                isSystemDestroyed = false; 
                 
-                // Atualiza o rodapé visualmente para mostrar que houve um patch
                 poweredText.innerText = "System Restored (Lego Patch applied)";
                 poweredText.classList.add('lego-locked');
-            }, 7000); // 4000 (espera do grito) + 3000 (duração exata do LEGO.mp3)
+            }, 7000); 
         }
 
         // === PEGASUS TERMINAL ===
@@ -353,7 +370,6 @@
             if(saveClickCount >= 3) {
                 saveClickCount = 0;
                 
-                // Muta a música de fundo automaticamente
                 if (isMusicPlaying) {
                     bgMusic.pause();
                     isMusicPlaying = false;
