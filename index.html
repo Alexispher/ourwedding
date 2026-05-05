@@ -99,14 +99,14 @@
         #powered-text:active { color: #ff5555; cursor: grabbing; text-shadow: 0 0 10px rgba(255,85,85,0.5); }
         .lego-locked { cursor: not-allowed !important; color: #50fa7b !important; text-shadow: none !important; }
 
-        /* EASTER EGG: LEGO OVERLAY (MENOR E CENTRALIZADO) */
+        /* EASTER EGG: LEGO OVERLAY */
         #lego-overlay { 
             display: none; 
             position: fixed; 
             top: 50%; 
             left: 50%; 
             transform: translate(-50%, -50%); 
-            width: 150px; /* Tamanho ajustado */
+            width: 150px; 
             height: auto;
             z-index: 10008; 
             pointer-events: none; 
@@ -145,9 +145,9 @@
         .swan-clickable:active { transform: scale(0.8) !important; }
 
         /* EASTER EGG: FLY SWATTER */
-        #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.7); cursor: none; overflow: hidden; }
-        .fly { position: absolute; width: 40px; height: 40px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; image-rendering: pixelated; }
-        .boss-fly { position: absolute; width: 120px; height: 120px; user-select: none; transition: top 0.8s ease-in-out, left 0.8s ease-in-out; pointer-events: none; image-rendering: pixelated; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); }
+        #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.7); cursor: none; overflow: hidden; transition: background-color 0.1s; }
+        .fly { position: absolute; width: 40px; height: 40px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; image-rendering: pixelated; display: flex; justify-content: center; align-items: center; font-size: 40px; }
+        .boss-fly { position: absolute; width: 120px; height: 120px; user-select: none; transition: top 0.8s ease-in-out, left 0.8s ease-in-out; pointer-events: none; image-rendering: pixelated; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transform: translate(-50%, -50%); }
         
         #swatter { position: absolute; pointer-events: none; transform-origin: bottom left; transition: transform 0.05s; z-index: 10006; display: flex; flex-direction: column; align-items: center; width: 60px; }
         .swatter-head { width: 45px; height: 55px; border: 3px solid #1e90ff; border-radius: 8px; background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px), repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px); }
@@ -157,6 +157,19 @@
         #fly-score { position: absolute; top: 20px; left: 20px; font-family: 'Consolas', monospace; font-size: 24px; font-weight: bold; color: #50fa7b; text-shadow: 2px 2px 0 #000; z-index: 10007; }
         .close-fly { position: absolute; top: 20px; right: 30px; font-family: sans-serif; font-size: 35px; color: #fff; cursor: pointer; z-index: 10007; }
         .close-fly:hover { color: #ff5555; }
+
+        @keyframes bossHit {
+            0% { transform: translate(-50%, -50%); }
+            25% { transform: translate(calc(-50% - 5px), calc(-50% + 5px)); }
+            50% { transform: translate(calc(-50% + 5px), calc(-50% - 5px)); }
+            75% { transform: translate(calc(-50% - 5px), calc(-50% - 5px)); }
+            100% { transform: translate(calc(-50% + 5px), calc(-50% + 5px)); }
+        }
+        @keyframes bossFloat {
+            0% { margin-top: 0px; }
+            50% { margin-top: -20px; }
+            100% { margin-top: 0px; }
+        }
     </style>
 </head>
 <body>
@@ -271,7 +284,7 @@
         let isSystemDestroyed = false; 
         let fusRoDahLocked = false; 
 
-        // === FUS RO DAH + LEGO REBUILD (Efeito de Construção) ===
+        // === FUS RO DAH + LEGO REBUILD ===
         const poweredText = document.getElementById('powered-text');
         let fusTimer;
         
@@ -295,7 +308,6 @@
 
             const elements = Array.from(document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p'));
 
-            // 1. O Grito (Destrói a página)
             setTimeout(() => {
                 elements.forEach(el => {
                     const randomX = (Math.random() - 0.5) * 4000;
@@ -310,7 +322,6 @@
                 document.body.style.overflow = 'hidden';
             }, 1100); 
 
-            // 2. A Reconstrução Peça por Peça
             setTimeout(() => {
                 const overlay = document.getElementById('lego-overlay');
                 overlay.src = "lego.gif?" + new Date().getTime(); 
@@ -318,14 +329,11 @@
                 
                 document.getElementById('legoAudio').play().catch(e=>{});
 
-                // Traz os elementos de volta gradativamente simulando encaixes
-                const buildTime = 2500; // Tempo distribuído antes do "buum"
+                const buildTime = 2500; 
                 
                 elements.forEach((el, index) => {
                     const delay = (index / elements.length) * buildTime;
-                    
                     setTimeout(() => {
-                        // O 'steps' cria aquele efeito duro e robótico de bloco encaixando
                         el.style.transition = 'transform 0.15s steps(2, end), opacity 0.15s';
                         el.style.transform = 'translate(0, 0) rotate(0deg)';
                         el.style.opacity = '1';
@@ -336,7 +344,6 @@
                 document.body.style.overflow = 'auto';
             }, 4000); 
 
-            // 3. O Fim do Processo (Buum do Lego)
             setTimeout(() => {
                 document.getElementById('lego-overlay').style.display = 'none';
                 isSystemDestroyed = false; 
@@ -360,7 +367,7 @@
             }
         });
 
-        // === SAVE ROOM RE (SILENCIA BG MUSIC) ===
+        // === SAVE ROOM RE ===
         let saveClickCount = 0;
         let saveTimer;
         function triggerSaveRoom() {
@@ -396,7 +403,7 @@
             setTimeout(() => ach.classList.remove('show'), 6000); 
         }
 
-        // === CASCATA SWAN (CLICKABLE MINIGAME) ===
+        // === CASCATA SWAN ===
         const secretCode = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
         let secretIndex = 0;
         document.addEventListener('keydown', function(e) {
@@ -440,7 +447,7 @@
             }
         }
 
-        // === FLY SWATTER WITH BOSS ===
+        // === FLY SWATTER WITH BOSS V2 ===
         const themeBtn = document.getElementById('theme-toggle');
         let themeClicks = 0;
         let themeTimer;
@@ -467,17 +474,18 @@
                 <div id="fly-score">KILLS: 0</div>
                 <div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor='auto'">X</div>
                 <div id="swatter">
-                    <div class="swatter-head"></div>
+                    <div class="swatter-head" id="hitbox"></div>
                     <div class="swatter-handle"></div>
                     <div class="swatter-glove">🖐🏻</div>
                 </div>
             `;
             
             let score = 0;
-            let bossHealth = 5;
+            let bossHealth = 15;
             let bossSpawned = false;
             const scoreEl = document.getElementById('fly-score');
             const swatter = document.getElementById('swatter');
+            const hitbox = document.getElementById('hitbox');
             
             function moveSwatter(x, y) {
                 swatter.style.left = (x - 30) + 'px';
@@ -491,40 +499,64 @@
             }, {passive: false});
             
             function hitAction(x, y) {
-                swatter.style.transform = 'rotate(-40deg)';
+                // Animação de Swing (mais rápido)
+                swatter.style.transform = 'rotate(-45deg) scale(0.9)';
                 
+                // Pega posição exata da raquete para calcular hit
+                const hRect = hitbox.getBoundingClientRect();
+                
+                // Checa hit nas moscas comuns
                 document.querySelectorAll('.fly').forEach(fly => {
-                    const rect = fly.getBoundingClientRect();
-                    if(x >= rect.left - 20 && x <= rect.right + 20 && 
-                       y >= rect.top - 20 && y <= rect.bottom + 20) {
-                        fly.src = ''; fly.alt = '💥'; 
+                    const fRect = fly.getBoundingClientRect();
+                    // Colisão AABB simples
+                    if(hRect.left < fRect.right && hRect.right > fRect.left &&
+                       hRect.top < fRect.bottom && hRect.bottom > fRect.top) {
+                        
+                        fly.style.transition = 'none';
+                        fly.innerHTML = '💥';
+                        fly.style.fontSize = '50px';
                         fly.style.pointerEvents = 'none';
-                        setTimeout(() => fly.remove(), 300);
+                        setTimeout(() => fly.remove(), 250);
+                        
                         score++; 
                         scoreEl.innerText = 'KILLS: ' + score + (bossSpawned ? ' (BOSS FIGHT!)' : '');
                         
-                        if(score === 10 && !bossSpawned) spawnBoss(container);
-                        else if (!bossSpawned) setTimeout(() => spawnFly(container), 1000);
+                        if(score === 15 && !bossSpawned) spawnBoss(container);
+                        else if (!bossSpawned) setTimeout(() => spawnFly(container), 800);
                     }
                 });
 
+                // Checa hit no Boss
                 const boss = document.querySelector('.boss-fly');
                 if (boss) {
                     const bRect = boss.getBoundingClientRect();
-                    if(x >= bRect.left && x <= bRect.right && y >= bRect.top && y <= bRect.bottom) {
+                    if(hRect.left < bRect.right && hRect.right > bRect.left &&
+                       hRect.top < bRect.bottom && hRect.bottom > bRect.top) {
+                        
                         bossHealth--;
-                        boss.style.filter = 'drop-shadow(0 0 20px rgba(255,255,255,0.8)) brightness(2)';
-                        setTimeout(() => boss.style.filter = 'drop-shadow(0 0 10px rgba(255,0,0,0.5))', 150);
+                        boss.style.animation = 'bossHit 0.2s infinite';
+                        boss.style.filter = 'drop-shadow(0 0 20px red) brightness(1.5)';
+                        
+                        setTimeout(() => {
+                            boss.style.animation = bossSpawned ? 'bossFloat 2s infinite ease-in-out' : '';
+                            boss.style.filter = 'drop-shadow(0 0 10px rgba(255,0,0,0.5))';
+                        }, 200);
+
                         if(bossHealth <= 0) {
-                            boss.src = ''; boss.alt = '🔥💥🔥';
-                            scoreEl.innerText = 'VITÓRIA! BOSS DERROTADO!';
+                            boss.src = '';
+                            boss.alt = '💥VITÓRIA!💥';
+                            boss.style.fontSize = '30px';
+                            boss.style.color = 'yellow';
+                            boss.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                            boss.style.animation = 'none';
+                            scoreEl.innerText = 'VITÓRIA! KING WATINGA ELIMINADO!';
                             scoreEl.style.color = '#f1fa8c';
-                            setTimeout(() => { boss.remove(); }, 1000);
+                            setTimeout(() => { boss.remove(); }, 1500);
                             setTimeout(() => { if(container) container.remove(); document.body.style.cursor='auto'; }, 3000);
                         }
                     }
                 }
-                setTimeout(() => swatter.style.transform = 'rotate(0deg)', 150);
+                setTimeout(() => swatter.style.transform = 'rotate(0deg) scale(1)', 100);
             }
 
             container.addEventListener('mousedown', e => hitAction(e.clientX, e.clientY));
@@ -538,17 +570,29 @@
                 boss.className = 'boss-fly';
                 boss.src = 'KingWatinga.png';
                 boss.alt = '👹'; 
-                boss.style.left = (window.innerWidth / 2 - 60) + 'px';
-                boss.style.top = '20px';
+                boss.style.left = '50%';
+                boss.style.top = '30%';
+                boss.style.animation = 'bossFloat 2s infinite ease-in-out';
                 cont.appendChild(boss);
                 
                 setInterval(() => {
-                    if(!boss.parentElement) return;
-                    let targetX = Math.random() * (window.innerWidth - 120);
-                    let targetY = Math.random() * (window.innerHeight - 120);
+                    if(!boss.parentElement || bossHealth <= 0) return;
+                    let targetX = Math.random() * (window.innerWidth - 150) + 75;
+                    let targetY = Math.random() * (window.innerHeight - 150) + 75;
                     boss.style.left = targetX + 'px';
                     boss.style.top = targetY + 'px';
-                }, 1000);
+
+                    // Ataque do Boss (Empurrão + Tela Vermelha)
+                    if(Math.random() > 0.6) {
+                        cont.style.backgroundColor = 'rgba(255,0,0,0.3)';
+                        swatter.style.transition = 'all 0.15s ease-out';
+                        swatter.style.transform = 'translateY(120px) rotate(25deg)';
+                        setTimeout(() => {
+                            cont.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                            swatter.style.transition = 'transform 0.05s';
+                        }, 300);
+                    }
+                }, 1200);
             }
         }
 
