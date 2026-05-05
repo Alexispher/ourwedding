@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ourwedding | Alex & Anny</title>
     <style>
         /* TEMA ESCURO (Padrão) */
@@ -35,28 +35,28 @@
         header { padding: 40px 20px; border-bottom: 1px solid var(--border-color); text-transform: uppercase; transition: border-color 0.5s; }
         header h2 { margin: 0; font-size: 1.2em; letter-spacing: 5px; color: var(--accent-silver); }
         
-        .top-controls { position: fixed; top: 20px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 1000; }
-        .control-btn { pointer-events: auto; font-family: 'Consolas', monospace; font-size: 1em; color: var(--text-muted); cursor: pointer; letter-spacing: 2px; transition: all 0.3s; background: var(--bg-color); border: 1px solid var(--border-color); padding: 8px 15px; margin: 0 20px; border-radius: 4px; user-select: none; }
+        .top-controls { position: fixed; top: 20px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 1000; box-sizing: border-box; padding: 0 10px; }
+        .control-btn { pointer-events: auto; font-family: 'Consolas', monospace; font-size: 1em; color: var(--text-muted); cursor: pointer; letter-spacing: 2px; transition: all 0.3s; background: var(--bg-color); border: 1px solid var(--border-color); padding: 8px 15px; border-radius: 4px; user-select: none; }
         .control-btn:hover { color: var(--text-color); border-color: var(--accent-silver); }
 
-        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(180deg, var(--bg-color) 0%, var(--bg-gradient-end) 100%); border-bottom: 1px solid var(--border-color); transition: background 0.5s, border-color 0.5s; }
-        .hero h1 { font-size: 4.5em; margin: 0; color: var(--text-color); }
+        .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(180deg, var(--bg-color) 0%, var(--bg-gradient-end) 100%); border-bottom: 1px solid var(--border-color); transition: background 0.5s, border-color 0.5s; padding: 0 20px; }
+        .hero h1 { font-size: 4.5em; margin: 0; color: var(--text-color); word-wrap: break-word; }
         .hero p { font-size: 0.9em; letter-spacing: 6px; color: var(--text-muted); text-transform: uppercase; margin-top: 20px; font-weight: bold; }
         
         .name-trigger { transition: color 0.4s, text-shadow 0.4s; cursor: pointer; }
         .name-trigger:hover { color: var(--dracula-purple); text-shadow: 0 0 15px rgba(189, 147, 249, 0.4); }
-        .amp { color: var(--text-color); transition: color 0.3s; cursor: pointer; display: inline-block; }
+        .amp { color: var(--text-color); transition: color 0.3s; cursor: pointer; display: inline-block; padding: 0 10px; }
         .amp:hover { color: var(--dracula-purple); }
 
-        .verse-box { margin-top: 25px; font-size: 0.95em; letter-spacing: 2px; color: var(--accent-silver); font-style: italic; opacity: 0; transition: opacity 0.8s ease-in-out; max-width: 80%; height: 40px; font-family: 'Didot', serif; }
+        .verse-box { margin-top: 25px; font-size: 0.95em; letter-spacing: 2px; color: var(--accent-silver); font-style: italic; opacity: 0; transition: opacity 0.8s ease-in-out; max-width: 80%; min-height: 40px; font-family: 'Didot', serif; }
 
-        .countdown-container { padding: 40px; background: var(--section-alt-bg); border-bottom: 1px solid var(--border-color); font-family: 'Consolas', monospace; color: var(--accent-silver); letter-spacing: 2px; transition: background-color 0.5s, color 0.5s; }
+        .countdown-container { padding: 40px 20px; background: var(--section-alt-bg); border-bottom: 1px solid var(--border-color); font-family: 'Consolas', monospace; color: var(--accent-silver); letter-spacing: 2px; transition: background-color 0.5s, color 0.5s; word-wrap: break-word; }
         .section { padding: 80px 20px; max-width: 700px; margin: 0 auto; }
         .section p { font-size: 1.15em; line-height: 1.8; color: var(--text-muted); font-weight: 400; }
         .alt-bg { background-color: var(--section-alt-bg); max-width: 100%; transition: background-color 0.5s; }
         .details { margin-top: 50px; font-size: 1em; letter-spacing: 2px; color: var(--accent-silver); text-transform: uppercase; font-weight: bold; }
         
-        .dress-code-box { margin-top: 40px; padding: 40px; border: 1px solid var(--border-color); background-color: var(--bg-color); text-align: left; transition: background-color 0.5s; }
+        .dress-code-box { margin-top: 40px; padding: 30px; border: 1px solid var(--border-color); background-color: var(--bg-color); text-align: left; transition: background-color 0.5s; }
         .dress-code-box p { font-size: 1em; margin-bottom: 20px; }
         .dress-code-box strong { color: var(--accent-silver); }
         .warning-text { color: #ff5555 !important; font-weight: bold; font-size: 0.85em !important; margin-bottom: 0 !important; letter-spacing: 1px; text-transform: uppercase; }
@@ -64,74 +64,116 @@
         .btn { display: inline-block; padding: 16px 45px; margin-top: 40px; background-color: transparent; border: 1px solid var(--accent-silver); color: var(--text-color); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85em; transition: all 0.4s ease; cursor: pointer; }
         .btn:hover { background-color: var(--text-color); color: var(--bg-color); }
 
-        #arcade { display: none; height: 100vh; flex-direction: column; align-items: center; justify-content: center; background: var(--arcade-bg); border-top: 1px solid var(--border-color); transition: background 0.5s; }
-        .game-container { padding: 20px; border: 1px solid #222; background: #050505; box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); border-radius: 8px; }
-        canvas { border: 1px solid #333; background: #050505; }
-        .stats { font-family: 'Consolas', monospace; color: var(--dracula-purple); margin-bottom: 10px; font-weight: bold; }
+        /* ARCADE & TETRIS */
+        #arcade { display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; background: var(--arcade-bg); border-top: 1px solid var(--border-color); transition: background 0.5s; padding: 20px 0; }
+        .game-container { padding: 15px; border: 1px solid #222; background: #050505; box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); border-radius: 8px; }
+        canvas { border: 1px solid #333; background: #050505; max-width: 100%; height: auto; }
+        .stats { font-family: 'Consolas', monospace; color: var(--dracula-purple); margin-bottom: 10px; font-weight: bold; text-align: center; }
         
-        footer { padding: 50px; border-top: 1px solid var(--border-color); font-size: 0.7em; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; position: relative; }
+        /* Controles Mobile Tetris */
+        #mobile-controls { display: none; flex-direction: column; gap: 10px; margin-top: 20px; width: 100%; max-width: 300px; }
+        .m-row { display: flex; justify-content: center; gap: 15px; }
+        .m-btn { padding: 15px; background: #111; color: var(--dracula-purple); border: 1px solid #333; border-radius: 5px; font-size: 1.5em; width: 60px; height: 60px; user-select: none; transition: background 0.2s; }
+        .m-btn:active { background: #333; }
+        .m-btn-large { width: auto; flex-grow: 1; font-size: 1.2em; font-family: 'Consolas', monospace; }
+
+        footer { padding: 50px 20px; border-top: 1px solid var(--border-color); font-size: 0.7em; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; position: relative; }
         
+        /* RESPONSIVIDADE (MOBILE) */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.8em; }
+            .hero p { font-size: 0.75em; letter-spacing: 4px; }
+            .section { padding: 50px 20px; }
+            .dress-code-box { padding: 20px; }
+            .countdown-container { font-size: 0.85em; padding: 30px 10px; }
+            #xbox-achievement { width: 90%; left: 5%; transform: none; padding: 10px 15px 10px 10px; }
+            .ach-title { font-size: 15px; }
+            .ach-desc { font-size: 12px; }
+            #mobile-controls { display: flex; }
+            .top-controls { padding: 0; top: 10px; }
+            .control-btn { font-size: 0.8em; padding: 6px 10px; margin: 0 10px; }
+        }
+
         /* EASTER EGG: FUS RO DAH TRIGGER */
         #powered-text { cursor: grab; user-select: none; display: inline-block; transition: color 0.3s; }
         #powered-text:active { color: #ff5555; cursor: grabbing; text-shadow: 0 0 10px rgba(255,85,85,0.5); }
+        .lego-locked { cursor: not-allowed !important; color: #50fa7b !important; text-shadow: none !important; }
+
+        /* EASTER EGG: LEGO OVERLAY */
+        #lego-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; z-index: 10008; pointer-events: none; background: #000; }
 
         /* EASTER EGG: PEGASUS TERMINAL */
-        #peg-terminal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px; z-index: 10000; text-align: left; box-sizing: border-box; }
-        #peg-terminal p { margin: 5px 0; letter-spacing: 1px; text-transform: uppercase; font-size: 1.1em; }
+        #peg-terminal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px 20px; z-index: 10000; text-align: left; box-sizing: border-box; }
+        #peg-terminal p { margin: 5px 0; letter-spacing: 1px; text-transform: uppercase; font-size: 1.1em; word-wrap: break-word; }
         
         /* EASTER EGG: SAVE ROOM RE */
         #save-notification { position: fixed; bottom: 30px; right: 30px; font-family: 'Times New Roman', serif; color: #fff; background: rgba(0,0,0,0.8); border: 1px solid #c0c0c0; padding: 10px 20px; opacity: 0; transition: opacity 0.5s; z-index: 9999; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8em; pointer-events: none; }
         .save-trigger { cursor: pointer; transition: color 0.3s; }
         .save-trigger:active { color: var(--text-color); }
 
-        /* EASTER EGG: XBOX ACHIEVEMENT */
+        /* EASTER EGG: XBOX ACHIEVEMENT (Animação Suave) */
         #xbox-achievement { 
-            position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); 
-            background: #419b1c; color: white; display: flex; align-items: center; 
+            position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); 
+            background: #107C10; color: white; display: flex; align-items: center; 
             padding: 12px 25px 12px 12px; border-radius: 50px; 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            box-shadow: 0 6px 20px rgba(0,0,0,0.5); z-index: 10001; 
-            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            box-shadow: 0 6px 20px rgba(0,0,0,0.6); z-index: 10001; 
             text-align: left; width: 420px; pointer-events: none;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .ach-icon-wrapper { background: #307513; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; flex-shrink: 0; }
-        .ach-icon-wrapper svg { width: 28px; height: 28px; fill: white; }
-        .ach-title { font-size: 18px; display: flex; align-items: center; margin-bottom: 2px; }
-        .ach-desc { font-size: 15px; font-weight: 400; opacity: 0.95; }
-        .ach-g { background: white; color: #419b1c; border-radius: 50%; padding: 0px 4px; font-size: 12px; margin-right: 6px; font-weight: 900; letter-spacing: -1px; }
-        
+        #xbox-achievement.show { bottom: 40px; }
+        .ach-icon-wrapper { background: #0b5c0b; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; flex-shrink: 0; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
+        .ach-icon-wrapper svg { width: 26px; height: 26px; fill: white; }
+        .ach-title { font-size: 17px; display: flex; align-items: center; margin-bottom: 2px; font-weight: bold; }
+        .ach-desc { font-size: 14px; font-weight: 400; opacity: 0.9; }
+        .ach-g { font-weight: 900; margin-right: 8px; font-size: 14px; display: flex; align-items: center;}
+        .ach-g::after { content: 'G'; border: 1px solid white; border-radius: 50%; width: 14px; height: 14px; display: inline-flex; justify-content: center; align-items: center; font-size: 10px; margin-left: 2px; }
+
+        /* EASTER EGG: SWAN CASCADE */
+        .swan-clickable { position: fixed; z-index: 9999; pointer-events: auto; cursor: crosshair; user-select: none; transition: transform 4s linear, top 4s linear, opacity 0.2s; }
+        .swan-clickable:active { transform: scale(0.8) !important; }
+
         /* EASTER EGG: FLY SWATTER */
-        #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.6); cursor: none; overflow: hidden; }
-        .fly { position: absolute; font-size: 35px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; }
-        #swatter { position: absolute; font-size: 60px; pointer-events: none; transform-origin: bottom left; transition: transform 0.05s; z-index: 10006; }
-        #fly-score { position: absolute; top: 20px; left: 20px; font-family: 'Consolas', monospace; font-size: 30px; font-weight: bold; color: #ff5555; text-shadow: 2px 2px 0 #000; }
-        .close-fly { position: absolute; top: 20px; right: 30px; font-family: sans-serif; font-size: 40px; color: #fff; cursor: pointer; z-index: 10007; }
+        #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.7); cursor: none; overflow: hidden; }
+        .fly { position: absolute; width: 40px; height: 40px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; image-rendering: pixelated; }
+        .boss-fly { position: absolute; width: 120px; height: 120px; user-select: none; transition: top 0.8s ease-in-out, left 0.8s ease-in-out; pointer-events: none; image-rendering: pixelated; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); }
+        
+        #swatter { position: absolute; pointer-events: none; transform-origin: bottom left; transition: transform 0.05s; z-index: 10006; display: flex; flex-direction: column; align-items: center; width: 60px; }
+        .swatter-head { width: 45px; height: 55px; border: 3px solid #1e90ff; border-radius: 8px; background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px), repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px); }
+        .swatter-handle { width: 6px; height: 30px; background: #888; }
+        .swatter-glove { font-size: 35px; margin-top: -15px; }
+
+        #fly-score { position: absolute; top: 20px; left: 20px; font-family: 'Consolas', monospace; font-size: 24px; font-weight: bold; color: #50fa7b; text-shadow: 2px 2px 0 #000; z-index: 10007; }
+        .close-fly { position: absolute; top: 20px; right: 30px; font-family: sans-serif; font-size: 35px; color: #fff; cursor: pointer; z-index: 10007; }
         .close-fly:hover { color: #ff5555; }
     </style>
 </head>
 <body>
-    <!-- MOTORES DE ÁUDIO RELATIVOS (Para o GitHub) -->
+    <!-- MOTORES DE ÁUDIO RELATIVOS -->
     <audio id="bgMusic" src="UIFY.mp3" loop preload="auto"></audio>
     <audio id="reAudio" src="RE.mp3" preload="auto"></audio>
     <audio id="xbAudio" src="XB.mp3" preload="auto"></audio>
     <audio id="fusAudio" src="FUS.mp3" preload="auto"></audio>
+    <audio id="legoAudio" src="LEGO.mp3" preload="auto"></audio>
     
-    <!-- EASTER EGGS ELEMENTS -->
+    <!-- EASTER EGG OVERLAYS -->
+    <img id="lego-overlay" src="lego.gif" alt="Reconstruindo a Matrix..." />
+
     <div id="peg-terminal">
         <p>> [PEGASUS SYSTEM] INICIANDO PROTOCOLOS DE UNIÃO...</p>
         <p>> [SECURITY] TRAJE DA NOIVA: CONFIDENCIAL.</p>
         <p>> [SYSTEM] CONEXÃO ESTABELECIDA. CARREGANDO PLAYER 2...</p>
-        <p>> [STATUS] MODO LOBO SOLITÁRIO DESATIVADO.</p>
+        <p>> [STATUS] SINCRONIZAÇÃO COMPLETA.</p>
     </div>
     <div id="save-notification">Progresso Salvo.</div>
     
     <div id="xbox-achievement">
         <div class="ach-icon-wrapper">
-            <svg viewBox="0 0 24 24"><path d="M19,2H5C3.9,2,3,2.9,3,4v4c0,2.6,1.8,4.8,4.2,5.6C7.9,15.1,9.4,16,11,16v3H8v2h8v-2h-3v-3c1.6,0,3.1-0.9,3.8-2.4C19.2,12.8,21,10.6,21,8V4C21,2.9,20.1,2,19,2z M5,8V4h2v5.9C5.9,9.3,5,8.7,5,8z M19,8c0,0.7-0.9,1.3-2,1.9V4h2V8z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
         </div>
         <div class="ach-text">
-            <div class="ach-title"><span class="ach-g">G</span> 100 - Master of Unlocking</div>
-            <div class="ach-desc">O Modo Lobo Solitário foi desativado. [25.2%]</div>
+            <div class="ach-title"><span class="ach-g">100</span> Player 2 Conectada</div>
+            <div class="ach-desc">Vocês uniram seus inventários para sempre.</div>
         </div>
     </div>
 
@@ -186,13 +228,28 @@
         <div class="game-container">
             <canvas id="tetris" width="240" height="400"></canvas>
         </div>
-        <p style="font-size: 0.7em; color: var(--text-muted); margin-top: 15px; font-family: monospace; font-weight: bold;">
-            SETAS: MOVER | CIMA: GIRAR | ESPAÇO: DERRUBAR RÁPIDO
+        <p style="font-size: 0.7em; color: var(--text-muted); margin-top: 15px; font-family: monospace; font-weight: bold; padding: 0 20px;">
+            PC: SETAS MOVER | CIMA GIRAR | ESPAÇO DERRUBAR
         </p>
+        
+        <!-- Controles Mobile -->
+        <div id="mobile-controls">
+            <div class="m-row">
+                <button class="m-btn" onclick="playerRotate(1)">↻</button>
+            </div>
+            <div class="m-row">
+                <button class="m-btn" onclick="playerMove(-1)">←</button>
+                <button class="m-btn" onclick="playerDrop()">↓</button>
+                <button class="m-btn" onclick="playerMove(1)">→</button>
+            </div>
+            <div class="m-row">
+                <button class="m-btn m-btn-large" onclick="fastDrop()">DERRUBAR</button>
+            </div>
+        </div>
     </section>
 
     <footer>
-        <p><span id="powered-text">Powered by PEGASUS Framework</span><span class="ach-trigger" onclick="triggerXboxAchievement()" style="cursor:pointer; opacity: 0.05; transition: opacity 0.3s; font-size: 20px;">.</span></p>
+        <p><span id="powered-text">Powered by PEGASUS Framework</span><span class="ach-trigger" onclick="triggerXboxAchievement()" style="cursor:pointer; opacity: 0.05; transition: opacity 0.3s; font-size: 20px; padding: 10px;">.</span></p>
     </footer>
 
     <script>
@@ -201,14 +258,15 @@
         function saveData(key, value) { try { localStorage.setItem(key, value); } catch(e) { console.log("Memória protegida."); } }
 
         let isSystemDestroyed = false; 
+        let fusRoDahLocked = false; // Trava o easter egg de destruição
 
-        // === FUS RO DAH ===
+        // === FUS RO DAH + LEGO REBUILD ===
         const poweredText = document.getElementById('powered-text');
         let fusTimer;
         
         ['mousedown', 'touchstart'].forEach(evt => {
             poweredText.addEventListener(evt, () => {
-                if(isSystemDestroyed) return;
+                if(isSystemDestroyed || fusRoDahLocked) return;
                 fusTimer = setTimeout(() => triggerFusRoDah(), 1500); 
             });
         });
@@ -217,12 +275,17 @@
         });
 
         function triggerFusRoDah() {
+            if(fusRoDahLocked) return;
             isSystemDestroyed = true; 
+            fusRoDahLocked = true; // Trava para sempre
+
             document.getElementById('fusAudio').play().catch(e=>{});
             document.getElementById('arcade').style.display = 'none';
 
+            const elements = document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p');
+
+            // 1. O Grito (Destrói a página)
             setTimeout(() => {
-                const elements = document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p');
                 elements.forEach(el => {
                     const randomX = (Math.random() - 0.5) * 4000;
                     const randomY = (Math.random() - 0.5) * 4000;
@@ -235,6 +298,35 @@
                 });
                 document.body.style.overflow = 'hidden';
             }, 1100); 
+
+            // 2. A Reconstrução (Entra o GIF e Áudio de LEGO)
+            setTimeout(() => {
+                const overlay = document.getElementById('lego-overlay');
+                // Adiciona timestamp para forçar o GIF a reiniciar do frame 0
+                overlay.src = "lego.gif?" + new Date().getTime(); 
+                overlay.style.display = 'block';
+                
+                document.getElementById('legoAudio').play().catch(e=>{});
+
+                // Arruma a bagunça "por trás das cortinas" enquanto o GIF passa
+                elements.forEach(el => {
+                    el.style.transition = 'none'; // Sem transição para voltar num estalo
+                    el.style.transform = 'translate(0, 0) rotate(0deg)';
+                    el.style.opacity = '1';
+                    el.style.pointerEvents = 'auto';
+                });
+                document.body.style.overflow = 'auto';
+            }, 4000); 
+
+            // 3. O Fim do Processo (Buum do Lego e Site Normal)
+            setTimeout(() => {
+                document.getElementById('lego-overlay').style.display = 'none';
+                isSystemDestroyed = false; // Libera o uso do site novamente
+                
+                // Atualiza o rodapé visualmente para mostrar que houve um patch
+                poweredText.innerText = "System Restored (Lego Patch applied)";
+                poweredText.classList.add('lego-locked');
+            }, 7000); // 4000 (espera do grito) + 3000 (duração exata do LEGO.mp3)
         }
 
         // === PEGASUS TERMINAL ===
@@ -251,7 +343,7 @@
             }
         });
 
-        // === SAVE ROOM RE ===
+        // === SAVE ROOM RE (SILENCIA BG MUSIC) ===
         let saveClickCount = 0;
         let saveTimer;
         function triggerSaveRoom() {
@@ -260,6 +352,15 @@
             clearTimeout(saveTimer);
             if(saveClickCount >= 3) {
                 saveClickCount = 0;
+                
+                // Muta a música de fundo automaticamente
+                if (isMusicPlaying) {
+                    bgMusic.pause();
+                    isMusicPlaying = false;
+                    document.getElementById('audio-control').innerText = "AUDIO: OFF";
+                    document.getElementById('audio-control').style.color = "var(--text-muted)";
+                }
+
                 document.getElementById('reAudio').play().catch(e=>{});
                 const notif = document.getElementById('save-notification');
                 notif.style.opacity = 1;
@@ -275,11 +376,11 @@
             achTriggered = true;
             document.getElementById('xbAudio').play().catch(e=>{});
             const ach = document.getElementById('xbox-achievement');
-            ach.style.bottom = '40px'; 
-            setTimeout(() => ach.style.bottom = '-120px', 7000); 
+            ach.classList.add('show');
+            setTimeout(() => ach.classList.remove('show'), 6000); 
         }
 
-        // === CASCATA SWAN ===
+        // === CASCATA SWAN (CLICKABLE MINIGAME) ===
         const secretCode = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
         let secretIndex = 0;
         document.addEventListener('keydown', function(e) {
@@ -296,27 +397,34 @@
         });
 
         function triggerSwanCascade() {
-            const symbols = ['🩰', '🦢'];
-            for (let i = 0; i < 40; i++) {
+            const symbols = ['🦢', '🦢', '🦢'];
+            for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const el = document.createElement('div');
+                    el.className = 'swan-clickable';
                     el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                    el.style.position = 'fixed'; el.style.top = '-50px';
-                    el.style.left = Math.random() * 100 + 'vw';
-                    el.style.fontSize = (Math.random() * 25 + 20) + 'px'; 
-                    el.style.zIndex = 9999; el.style.opacity = Math.random() * 0.7 + 0.3;
-                    el.style.pointerEvents = 'none';
-                    el.style.transition = 'transform 4s linear, top 4s linear';
+                    el.style.left = Math.random() * 90 + 'vw';
+                    el.style.top = '-50px';
+                    el.style.fontSize = (Math.random() * 30 + 30) + 'px'; 
+                    
+                    el.onclick = function() {
+                        this.innerText = '❤️';
+                        this.style.transform = 'scale(1.5)';
+                        this.style.transition = 'all 0.3s';
+                        setTimeout(() => this.remove(), 300);
+                    };
+
                     document.body.appendChild(el);
-                    el.getBoundingClientRect(); 
+                    el.getBoundingClientRect();
                     el.style.top = '120vh';
                     el.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    setTimeout(() => el.remove(), 4000);
-                }, i * 150);
+                    
+                    setTimeout(() => { if(el.parentElement) el.remove() }, 4000);
+                }, i * 200);
             }
         }
 
-        // === FLY SWATTER ===
+        // === FLY SWATTER WITH BOSS ===
         const themeBtn = document.getElementById('theme-toggle');
         let themeClicks = 0;
         let themeTimer;
@@ -338,50 +446,112 @@
             const container = document.createElement('div');
             container.id = 'fly-game-container';
             document.body.appendChild(container);
-            container.innerHTML = '<div id="fly-score">KILLS: 0</div><div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor=\'auto\'">X</div>';
+            
+            container.innerHTML = `
+                <div id="fly-score">KILLS: 0</div>
+                <div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor='auto'">X</div>
+                <div id="swatter">
+                    <div class="swatter-head"></div>
+                    <div class="swatter-handle"></div>
+                    <div class="swatter-glove">🖐🏻</div>
+                </div>
+            `;
             
             let score = 0;
+            let bossHealth = 5;
+            let bossSpawned = false;
             const scoreEl = document.getElementById('fly-score');
-            const swatter = document.createElement('div');
-            swatter.id = 'swatter'; swatter.innerHTML = '🏏'; 
-            container.appendChild(swatter);
+            const swatter = document.getElementById('swatter');
             
-            container.addEventListener('mousemove', e => {
-                swatter.style.left = (e.clientX - 10) + 'px';
-                swatter.style.top = (e.clientY - 50) + 'px';
-            });
+            function moveSwatter(x, y) {
+                swatter.style.left = (x - 30) + 'px';
+                swatter.style.top = (y - 80) + 'px';
+            }
+
+            container.addEventListener('mousemove', e => moveSwatter(e.clientX, e.clientY));
+            container.addEventListener('touchmove', e => {
+                e.preventDefault();
+                moveSwatter(e.touches[0].clientX, e.touches[0].clientY);
+            }, {passive: false});
             
-            container.addEventListener('mousedown', e => {
-                swatter.style.transform = 'rotate(-50deg)';
+            function hitAction(x, y) {
+                swatter.style.transform = 'rotate(-40deg)';
+                
                 document.querySelectorAll('.fly').forEach(fly => {
                     const rect = fly.getBoundingClientRect();
-                    if(e.clientX >= rect.left && e.clientX <= rect.right && 
-                       e.clientY >= rect.top && e.clientY <= rect.bottom) {
-                        fly.innerHTML = '💥'; fly.classList.remove('fly');
+                    if(x >= rect.left - 20 && x <= rect.right + 20 && 
+                       y >= rect.top - 20 && y <= rect.bottom + 20) {
+                        fly.src = ''; fly.alt = '💥'; 
                         fly.style.pointerEvents = 'none';
-                        setTimeout(() => fly.remove(), 500);
-                        score++; scoreEl.innerText = 'KILLS: ' + score;
-                        setTimeout(() => spawnFly(container), 1500);
+                        setTimeout(() => fly.remove(), 300);
+                        score++; 
+                        scoreEl.innerText = 'KILLS: ' + score + (bossSpawned ? ' (BOSS FIGHT!)' : '');
+                        
+                        if(score === 10 && !bossSpawned) spawnBoss(container);
+                        else if (!bossSpawned) setTimeout(() => spawnFly(container), 1000);
                     }
                 });
+
+                const boss = document.querySelector('.boss-fly');
+                if (boss) {
+                    const bRect = boss.getBoundingClientRect();
+                    if(x >= bRect.left && x <= bRect.right && y >= bRect.top && y <= bRect.bottom) {
+                        bossHealth--;
+                        boss.style.filter = 'drop-shadow(0 0 20px rgba(255,255,255,0.8)) brightness(2)';
+                        setTimeout(() => boss.style.filter = 'drop-shadow(0 0 10px rgba(255,0,0,0.5))', 150);
+                        if(bossHealth <= 0) {
+                            boss.src = ''; boss.alt = '🔥💥🔥';
+                            scoreEl.innerText = 'VITÓRIA! BOSS DERROTADO!';
+                            scoreEl.style.color = '#f1fa8c';
+                            setTimeout(() => { boss.remove(); }, 1000);
+                            setTimeout(() => { if(container) container.remove(); document.body.style.cursor='auto'; }, 3000);
+                        }
+                    }
+                }
                 setTimeout(() => swatter.style.transform = 'rotate(0deg)', 150);
-            });
-            for(let i=0; i<8; i++) spawnFly(container);
+            }
+
+            container.addEventListener('mousedown', e => hitAction(e.clientX, e.clientY));
+            container.addEventListener('touchstart', e => hitAction(e.touches[0].clientX, e.touches[0].clientY));
+            
+            for(let i=0; i<6; i++) spawnFly(container);
+
+            function spawnBoss(cont) {
+                bossSpawned = true;
+                const boss = document.createElement('img');
+                boss.className = 'boss-fly';
+                boss.src = 'KingWatinga.png';
+                boss.alt = '👹'; 
+                boss.style.left = (window.innerWidth / 2 - 60) + 'px';
+                boss.style.top = '20px';
+                cont.appendChild(boss);
+                
+                setInterval(() => {
+                    if(!boss.parentElement) return;
+                    let targetX = Math.random() * (window.innerWidth - 120);
+                    let targetY = Math.random() * (window.innerHeight - 120);
+                    boss.style.left = targetX + 'px';
+                    boss.style.top = targetY + 'px';
+                }, 1000);
+            }
         }
 
         function spawnFly(container) {
             if(!document.getElementById('fly-game-container')) return;
-            const fly = document.createElement('div');
-            fly.className = 'fly'; fly.innerHTML = '🪰';
-            fly.style.left = Math.random() * (window.innerWidth - 50) + 'px';
-            fly.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+            const fly = document.createElement('img');
+            fly.className = 'fly'; 
+            fly.src = 'OneGnatGA.png'; 
+            fly.alt = '𓆦'; 
+            fly.style.left = Math.random() * (window.innerWidth - 40) + 'px';
+            fly.style.top = Math.random() * (window.innerHeight - 40) + 'px';
             container.appendChild(fly);
+            
             setInterval(() => {
                 if(!fly.parentElement || !fly.classList.contains('fly')) return;
                 let currentX = parseFloat(fly.style.left); let currentY = parseFloat(fly.style.top);
-                fly.style.left = Math.max(0, Math.min(window.innerWidth - 40, currentX + (Math.random() - 0.5) * 300)) + 'px';
-                fly.style.top = Math.max(0, Math.min(window.innerHeight - 40, currentY + (Math.random() - 0.5) * 300)) + 'px';
-            }, 400); 
+                fly.style.left = Math.max(0, Math.min(window.innerWidth - 40, currentX + (Math.random() - 0.5) * 400)) + 'px';
+                fly.style.top = Math.max(0, Math.min(window.innerHeight - 40, currentY + (Math.random() - 0.5) * 400)) + 'px';
+            }, 500); 
         }
 
         // === CORE ENGINE ===
@@ -401,18 +571,19 @@
 
         if (getSavedData('ourwedding_theme') === 'light') {
             document.body.setAttribute('data-theme', 'light');
-            themeBtn.innerHTML = '☾';
+            document.getElementById('theme-toggle').innerHTML = '☾';
         }
         
         function toggleTheme() {
+            const btn = document.getElementById('theme-toggle');
             if (document.body.getAttribute('data-theme') === 'light') {
                 document.body.removeAttribute('data-theme');
                 saveData('ourwedding_theme', 'dark');
-                themeBtn.innerHTML = '☀︎';
+                btn.innerHTML = '☀︎';
             } else {
                 document.body.setAttribute('data-theme', 'light');
                 saveData('ourwedding_theme', 'light');
-                themeBtn.innerHTML = '☾';
+                btn.innerHTML = '☾';
             }
         }
 
@@ -434,7 +605,7 @@
         }
 
         document.body.addEventListener('click', function(event) {
-            if (!isMusicPlaying && event.target.id !== 'theme-toggle' && !isSystemDestroyed) {
+            if (!isMusicPlaying && event.target.id !== 'theme-toggle' && event.target.id !== 'audio-control' && !isSystemDestroyed) {
                 bgMusic.play().then(() => {
                     isMusicPlaying = true;
                     document.getElementById('audio-control').innerText = "AUDIO: ON";
@@ -546,7 +717,7 @@
             });
         }
 
-        function rotate(matrix, dir) {
+        function rotateMatrix(matrix, dir) {
             for (let y = 0; y < matrix.length; ++y) {
                 for (let x = 0; x < y; ++x) {
                     [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
@@ -565,6 +736,12 @@
                 arenaSweep();
             }
             dropCounter = 0;
+        }
+        
+        function fastDrop() {
+            while(!collide(arena, player)) player.pos.y++; 
+            player.pos.y--; 
+            playerDrop(); 
         }
 
         function playerMove(dir) {
@@ -591,12 +768,12 @@
         function playerRotate(dir) {
             const pos = player.pos.x;
             let offset = 1;
-            rotate(player.matrix, dir);
+            rotateMatrix(player.matrix, dir);
             while (collide(arena, player)) {
                 player.pos.x += offset;
                 offset = -(offset + (offset > 0 ? 1 : -1));
                 if (offset > player.matrix[0].length) {
-                    rotate(player.matrix, -dir);
+                    rotateMatrix(player.matrix, -dir);
                     player.pos.x = pos;
                     return;
                 }
@@ -643,11 +820,7 @@
             else if (event.keyCode === 39) playerMove(1);
             else if (event.keyCode === 40) playerDrop();
             else if (event.keyCode === 38) playerRotate(1);
-            else if (event.keyCode === 32) { 
-                while(!collide(arena, player)) player.pos.y++; 
-                player.pos.y--; 
-                playerDrop(); 
-            }
+            else if (event.keyCode === 32) fastDrop();
         });
 
         function startTetris() {
