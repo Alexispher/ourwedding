@@ -288,6 +288,27 @@
         }
         window.onload = typeBoot;
 
+        // === DESBLOQUEIO DE ÁUDIO GLOBAL (Bypass Autoplay Policy do Navegador) ===
+        let audioUnlocked = false;
+        function unlockAllAudio() {
+            if(audioUnlocked) return;
+            const audios = document.querySelectorAll('audio');
+            audios.forEach(audio => {
+                // Tenta tocar e pausa instantaneamente para o navegador liberar o uso futuro
+                audio.play().then(() => {
+                    if(audio.id !== 'bgMusic' || !isMusicPlaying) {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }
+                }).catch(() => {});
+            });
+            audioUnlocked = true;
+            document.removeEventListener('click', unlockAllAudio);
+            document.removeEventListener('touchstart', unlockAllAudio);
+        }
+        document.addEventListener('click', unlockAllAudio);
+        document.addEventListener('touchstart', unlockAllAudio);
+
         // === PROTEÇÃO DE MEMÓRIA ===
         function getSavedData(key) { try { return localStorage.getItem(key); } catch(e) { return null; } }
         function saveData(key, value) { try { localStorage.setItem(key, value); } catch(e) { console.log("Memória protegida."); } }
@@ -312,7 +333,11 @@
         function triggerFusRoDah() {
             if(fusRoDahLocked) return;
             isSystemDestroyed = true; fusRoDahLocked = true; 
-            document.getElementById('fusAudio').play().catch(e=>{});
+            
+            // Som FUS agora liberado
+            const fusSom = document.getElementById('fusAudio');
+            fusSom.currentTime = 0; fusSom.play().catch(e=>{});
+            
             document.getElementById('arcade').style.display = 'none';
 
             const elements = Array.from(document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p'));
@@ -333,7 +358,10 @@
                 const overlay = document.getElementById('lego-overlay');
                 overlay.src = "lego.gif?" + new Date().getTime(); 
                 overlay.style.display = 'block';
-                document.getElementById('legoAudio').play().catch(e=>{});
+                
+                // Som LEGO liberado
+                const legoSom = document.getElementById('legoAudio');
+                legoSom.currentTime = 0; legoSom.play().catch(e=>{});
 
                 const buildTime = 2500; 
                 elements.forEach((el, index) => {
@@ -377,7 +405,8 @@
             if(saveClickCount >= 3) {
                 saveClickCount = 0;
                 if (isMusicPlaying) { bgMusic.pause(); isMusicPlaying = false; document.getElementById('audio-control').innerText = "AUDIO: OFF"; document.getElementById('audio-control').style.color = "var(--text-muted)"; }
-                document.getElementById('reAudio').play().catch(e=>{});
+                const reSom = document.getElementById('reAudio');
+                reSom.currentTime = 0; reSom.play().catch(e=>{});
                 const notif = document.getElementById('save-notification');
                 notif.style.opacity = 1; setTimeout(() => notif.style.opacity = 0, 4000);
             }
@@ -389,7 +418,8 @@
         function triggerXboxAchievement() {
             if(isSystemDestroyed || achTriggered) return;
             achTriggered = true;
-            document.getElementById('xbAudio').play().catch(e=>{});
+            const xbSom = document.getElementById('xbAudio');
+            xbSom.currentTime = 0; xbSom.play().catch(e=>{});
             const ach = document.getElementById('xbox-achievement');
             ach.classList.add('show'); setTimeout(() => ach.classList.remove('show'), 6000); 
         }
@@ -504,15 +534,20 @@
             const fly = document.createElement('div');
             fly.className = 'fly'; 
             
-            // Lógica Lago dos Cisnes x Moscas
+            // PROBABILIDADES AJUSTADAS (30% Sapatilha, 30% Cisne, 40% Mosca)
             const rand = Math.random();
-            if (rand > 0.92) {
-                fly.innerHTML = '🩰'; fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
+            if (rand > 0.70) {
+                // Sapatilha 🩰
+                fly.innerHTML = '🩰'; 
+                fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
                 fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = '-50px';
-            } else if (rand > 0.85) {
-                fly.innerHTML = '🦢'; fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
+            } else if (rand > 0.40) {
+                // Cisne 🦢
+                fly.innerHTML = '🦢'; 
+                fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
                 fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = '-50px';
             } else {
+                // Mosca
                 fly.innerHTML = '<img src="OneGnatGA.png" alt="𓆦" style="width:100%;height:100%; object-fit:contain;">';
                 fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = Math.random() * (window.innerHeight - 40) + 'px';
             }
@@ -572,7 +607,10 @@
                 img.dataset.rotated = "false"; img.dataset.slotsW = data.w; img.dataset.slotsH = data.h;
                 makeDraggable(img, grid); grid.appendChild(img);
             });
-            try { document.getElementById('xbAudio').play(); } catch(e){}
+            try { 
+                const xbSom = document.getElementById('xbAudio');
+                xbSom.currentTime = 0; xbSom.play(); 
+            } catch(e){}
         }
 
         function closeAttacheCase() { document.getElementById('attache-case-overlay').style.display = 'none'; }
@@ -620,7 +658,7 @@
             else { el.style.transform = "rotate(0deg)"; el.dataset.rotated = "false"; }
         }
 
-        // === CORE ENGINE UI ===
+        // === CORE ENGINE UI & MUSIC AUTOPLAY FIX ===
         let verseTimeout;
         function showVerse(person) {
             if(isSystemDestroyed) return;
@@ -641,15 +679,24 @@
         function toggleAudio() {
             if(isSystemDestroyed) return;
             if (isMusicPlaying) { bgMusic.pause(); document.getElementById('audio-control').innerText = "AUDIO: OFF"; document.getElementById('audio-control').style.color = "var(--text-muted)"; } 
-            else { bgMusic.play(); document.getElementById('audio-control').innerText = "AUDIO: ON"; document.getElementById('audio-control').style.color = "var(--dracula-purple)"; }
+            else { bgMusic.play().catch(e=>{}); document.getElementById('audio-control').innerText = "AUDIO: ON"; document.getElementById('audio-control').style.color = "var(--dracula-purple)"; }
             isMusicPlaying = !isMusicPlaying;
         }
 
-        document.body.addEventListener('click', function(event) {
-            if (!isMusicPlaying && event.target.id !== 'theme-toggle' && event.target.id !== 'audio-control' && !isSystemDestroyed) {
-                bgMusic.play().then(() => { isMusicPlaying = true; document.getElementById('audio-control').innerText = "AUDIO: ON"; document.getElementById('audio-control').style.color = "var(--dracula-purple)"; }).catch(e => {});
-            }
-        }, { once: true });
+        // Fix de Autoplay da música ao primeiro clique na tela (sem quebrar se clicar nos controles)
+        function startBgMusicGlobal(event) {
+            if (isMusicPlaying || isSystemDestroyed) return;
+            // Ignora o clique se for nos botões do topo ou nos controles do celular
+            if (event.target.id === 'theme-toggle' || event.target.id === 'audio-control' || event.target.closest('#mobile-controls')) return;
+            
+            bgMusic.play().then(() => { 
+                isMusicPlaying = true; 
+                document.getElementById('audio-control').innerText = "AUDIO: ON"; 
+                document.getElementById('audio-control').style.color = "var(--dracula-purple)"; 
+                document.body.removeEventListener('click', startBgMusicGlobal); // Remove após funcionar
+            }).catch(e => {});
+        }
+        document.body.addEventListener('click', startBgMusicGlobal);
 
         function confirmRSVP(btn) { if(isSystemDestroyed) return; alert('RSVP Confirmado!'); btn.innerHTML = 'CONFIRMADO'; btn.style.backgroundColor = 'var(--text-color)'; btn.style.color = 'var(--bg-color)'; }
 
