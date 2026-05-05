@@ -48,7 +48,7 @@
         .amp { color: var(--text-color); transition: color 0.3s; cursor: pointer; display: inline-block; padding: 0 10px; }
         .amp:hover { color: var(--dracula-purple); }
 
-        .verse-box { margin-top: 25px; font-size: 0.95em; letter-spacing: 2px; color: var(--accent-silver); font-style: italic; opacity: 0; transition: opacity 0.8s ease-in-out; max-width: 80%; min-height: 40px; font-family: 'Didot', serif; }
+        .verse-box { margin-top: 25px; font-size: 0.95em; letter-spacing: 5px; color: var(--accent-silver); font-style: italic; opacity: 0; transition: opacity 0.8s ease-in-out; max-width: 80%; min-height: 40px; font-family: 'Didot', serif; }
 
         .countdown-container { padding: 40px 20px; background: var(--section-alt-bg); border-bottom: 1px solid var(--border-color); font-family: 'Consolas', monospace; color: var(--accent-silver); letter-spacing: 2px; transition: background-color 0.5s, color 0.5s; word-wrap: break-word; }
         .section { padding: 80px 20px; max-width: 700px; margin: 0 auto; }
@@ -57,6 +57,7 @@
         .details { margin-top: 50px; font-size: 1em; letter-spacing: 2px; color: var(--accent-silver); text-transform: uppercase; font-weight: bold; }
         
         .dress-code-box { margin-top: 40px; padding: 30px; border: 1px solid var(--border-color); background-color: var(--bg-color); text-align: left; transition: background-color 0.5s; }
+        .dress-code-box:hover .warning-text { animation: glitch 0.3s linear infinite; }
         .dress-code-box p { font-size: 1em; margin-bottom: 20px; }
         .dress-code-box strong { color: var(--accent-silver); }
         .warning-text { color: #ff5555 !important; font-weight: bold; font-size: 0.85em !important; margin-bottom: 0 !important; letter-spacing: 1px; text-transform: uppercase; }
@@ -70,7 +71,6 @@
         canvas { border: 1px solid #333; background: #050505; max-width: 100%; height: auto; }
         .stats { font-family: 'Consolas', monospace; color: var(--dracula-purple); margin-bottom: 10px; font-weight: bold; text-align: center; }
         
-        /* Controles Mobile Tetris */
         #mobile-controls { display: none; flex-direction: column; gap: 10px; margin-top: 20px; width: 100%; max-width: 300px; }
         .m-row { display: flex; justify-content: center; gap: 15px; }
         .m-btn { padding: 15px; background: #111; color: var(--dracula-purple); border: 1px solid #333; border-radius: 5px; font-size: 1.5em; width: 60px; height: 60px; user-select: none; transition: background 0.2s; }
@@ -87,51 +87,33 @@
             .dress-code-box { padding: 20px; }
             .countdown-container { font-size: 0.85em; padding: 30px 10px; }
             #xbox-achievement { width: 90%; left: 5%; transform: none; padding: 10px 15px 10px 10px; }
-            .ach-title { font-size: 15px; }
-            .ach-desc { font-size: 12px; }
             #mobile-controls { display: flex; }
             .top-controls { padding: 0; top: 10px; }
             .control-btn { font-size: 0.8em; padding: 6px 10px; margin: 0 10px; }
+            #attache-case-grid { width: 320px !important; height: 480px !important; }
         }
 
-        /* EASTER EGG: FUS RO DAH TRIGGER */
+        /* --- EASTER EGGS CSS --- */
+        #boot-loader { position: fixed; top:0; left:0; width:100vw; height:100vh; background: #050505; color: #50fa7b; font-family: 'Consolas', monospace; z-index: 50000; display: flex; align-items: flex-start; padding: 50px; font-size: 1.2em; box-sizing: border-box; text-align: left;}
+        #boot-text p { margin: 5px 0; }
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+        @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 2px) } 40% { transform: translate(-2px, -2px) } 60% { transform: translate(2px, 2px) } 80% { transform: translate(2px, -2px) } 100% { transform: translate(0) } }
+
         #powered-text { cursor: grab; user-select: none; display: inline-block; transition: color 0.3s; }
         #powered-text:active { color: #ff5555; cursor: grabbing; text-shadow: 0 0 10px rgba(255,85,85,0.5); }
         .lego-locked { cursor: not-allowed !important; color: #50fa7b !important; text-shadow: none !important; }
 
-        /* EASTER EGG: LEGO OVERLAY */
-        #lego-overlay { 
-            display: none; 
-            position: fixed; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            width: 150px; 
-            height: auto;
-            z-index: 10008; 
-            pointer-events: none; 
-            filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));
-        }
+        #lego-overlay { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: auto; z-index: 10008; pointer-events: none; filter: drop-shadow(0 0 15px rgba(0,0,0,0.5)); }
 
-        /* EASTER EGG: PEGASUS TERMINAL */
         #peg-terminal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px 20px; z-index: 10000; text-align: left; box-sizing: border-box; }
         #peg-terminal p { margin: 5px 0; letter-spacing: 1px; text-transform: uppercase; font-size: 1.1em; word-wrap: break-word; }
         
-        /* EASTER EGG: SAVE ROOM RE */
         #save-notification { position: fixed; bottom: 30px; right: 30px; font-family: 'Times New Roman', serif; color: #fff; background: rgba(0,0,0,0.8); border: 1px solid #c0c0c0; padding: 10px 20px; opacity: 0; transition: opacity 0.5s; z-index: 9999; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8em; pointer-events: none; }
         .save-trigger { cursor: pointer; transition: color 0.3s; }
         .save-trigger:active { color: var(--text-color); }
 
-        /* EASTER EGG: XBOX ACHIEVEMENT */
-        #xbox-achievement { 
-            position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); 
-            background: #107C10; color: white; display: flex; align-items: center; 
-            padding: 12px 25px 12px 12px; border-radius: 50px; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            box-shadow: 0 6px 20px rgba(0,0,0,0.6); z-index: 10001; 
-            text-align: left; width: 420px; pointer-events: none;
-            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        #xbox-achievement { position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%); background: #107C10; color: white; display: flex; align-items: center; padding: 12px 25px 12px 12px; border-radius: 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; box-shadow: 0 6px 20px rgba(0,0,0,0.6); z-index: 10001; text-align: left; width: 420px; pointer-events: none; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         #xbox-achievement.show { bottom: 40px; }
         .ach-icon-wrapper { background: #0b5c0b; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; flex-shrink: 0; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
         .ach-icon-wrapper svg { width: 26px; height: 26px; fill: white; }
@@ -140,13 +122,12 @@
         .ach-g { font-weight: 900; margin-right: 8px; font-size: 14px; display: flex; align-items: center;}
         .ach-g::after { content: 'G'; border: 1px solid white; border-radius: 50%; width: 14px; height: 14px; display: inline-flex; justify-content: center; align-items: center; font-size: 10px; margin-left: 2px; }
 
-        /* EASTER EGG: SWAN CASCADE */
         .swan-clickable { position: fixed; z-index: 9999; pointer-events: auto; cursor: crosshair; user-select: none; transition: transform 4s linear, top 4s linear, opacity 0.2s; }
         .swan-clickable:active { transform: scale(0.8) !important; }
 
-        /* EASTER EGG: FLY SWATTER */
+        /* FLY SWATTER & LAGO DOS CISNES */
         #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.7); cursor: none; overflow: hidden; transition: background-color 0.1s; }
-        .fly { position: absolute; width: 40px; height: 40px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; image-rendering: pixelated; display: flex; justify-content: center; align-items: center; font-size: 40px; }
+        .fly { position: absolute; width: 40px; height: 40px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; display: flex; justify-content: center; align-items: center; }
         .boss-fly { position: absolute; width: 120px; height: 120px; user-select: none; transition: top 0.8s ease-in-out, left 0.8s ease-in-out; pointer-events: none; image-rendering: pixelated; filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); transform: translate(-50%, -50%); }
         
         #swatter { position: absolute; pointer-events: none; transform-origin: bottom left; transition: transform 0.05s; z-index: 10006; display: flex; flex-direction: column; align-items: center; width: 60px; }
@@ -158,29 +139,32 @@
         .close-fly { position: absolute; top: 20px; right: 30px; font-family: sans-serif; font-size: 35px; color: #fff; cursor: pointer; z-index: 10007; }
         .close-fly:hover { color: #ff5555; }
 
-        @keyframes bossHit {
-            0% { transform: translate(-50%, -50%); }
-            25% { transform: translate(calc(-50% - 5px), calc(-50% + 5px)); }
-            50% { transform: translate(calc(-50% + 5px), calc(-50% - 5px)); }
-            75% { transform: translate(calc(-50% - 5px), calc(-50% - 5px)); }
-            100% { transform: translate(calc(-50% + 5px), calc(-50% + 5px)); }
-        }
-        @keyframes bossFloat {
-            0% { margin-top: 0px; }
-            50% { margin-top: -20px; }
-            100% { margin-top: 0px; }
-        }
+        @keyframes bossHit { 0% { transform: translate(-50%, -50%); } 25% { transform: translate(calc(-50% - 5px), calc(-50% + 5px)); } 50% { transform: translate(calc(-50% + 5px), calc(-50% - 5px)); } 75% { transform: translate(calc(-50% - 5px), calc(-50% - 5px)); } 100% { transform: translate(calc(-50% + 5px), calc(-50% + 5px)); } }
+        @keyframes bossFloat { 0% { margin-top: 0px; } 50% { margin-top: -20px; } 100% { margin-top: 0px; } }
+
+        /* --- MALETA RE4 CSS --- */
+        #attache-case-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 5, 0.95); z-index: 30000; justify-content: center; align-items: center; flex-direction: column; }
+        .close-case { position: absolute; top: 20px; right: 30px; color: var(--accent-silver); font-family: 'Consolas', monospace; font-size: 1.2em; cursor: pointer; z-index: 30001; letter-spacing: 2px; }
+        .close-case:hover { color: #ff5555; }
+        #attache-case-grid { position: relative; width: 600px; height: 400px; background-color: #1a1a1a; background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px; border: 2px solid #555; box-shadow: inset 0 0 50px #000, 0 0 30px rgba(0,0,0,0.8); touch-action: none; overflow: visible; }
+        .re4-item { position: absolute; cursor: grab; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.8)); user-select: none; -webkit-user-drag: none; transition: transform 0.1s; }
+        .re4-item:active { cursor: grabbing; filter: drop-shadow(5px 5px 10px rgba(0,0,0,0.9)) brightness(1.2); z-index: 100; }
     </style>
 </head>
 <body>
-    <!-- MOTORES DE ÁUDIO RELATIVOS -->
+    <!-- BOOT LOADER -->
+    <div id="boot-loader">
+        <div id="boot-text"></div><span class="cursor-blink">_</span>
+    </div>
+
+    <!-- ÁUDIOS -->
     <audio id="bgMusic" src="UIFY.mp3" loop preload="auto"></audio>
     <audio id="reAudio" src="RE.mp3" preload="auto"></audio>
     <audio id="xbAudio" src="XB.mp3" preload="auto"></audio>
     <audio id="fusAudio" src="FUS.mp3" preload="auto"></audio>
     <audio id="legoAudio" src="LEGO.mp3" preload="auto"></audio>
     
-    <!-- EASTER EGG OVERLAYS -->
+    <!-- OVERLAYS EASTER EGGS -->
     <img id="lego-overlay" src="lego.gif" alt="Reconstruindo..." />
 
     <div id="peg-terminal">
@@ -199,6 +183,12 @@
             <div class="ach-title"><span class="ach-g">100</span> Player 2 Conectada</div>
             <div class="ach-desc">Vocês uniram seus inventários para sempre.</div>
         </div>
+    </div>
+
+    <!-- OVERLAY DA MALETA TÁTICA (RE4) -->
+    <div id="attache-case-overlay">
+        <div class="close-case" onclick="closeAttacheCase()">FECHAR [X]</div>
+        <div id="attache-case-grid"></div>
     </div>
 
     <!-- SITE PRINCIPAL -->
@@ -256,19 +246,14 @@
             PC: SETAS MOVER | CIMA GIRAR | ESPAÇO DERRUBAR
         </p>
         
-        <!-- Controles Mobile -->
         <div id="mobile-controls">
-            <div class="m-row">
-                <button class="m-btn" onclick="playerRotate(1)">↻</button>
-            </div>
+            <div class="m-row"><button class="m-btn" onclick="playerRotate(1)">↻</button></div>
             <div class="m-row">
                 <button class="m-btn" onclick="playerMove(-1)">←</button>
                 <button class="m-btn" onclick="playerDrop()">↓</button>
                 <button class="m-btn" onclick="playerMove(1)">→</button>
             </div>
-            <div class="m-row">
-                <button class="m-btn m-btn-large" onclick="fastDrop()">DERRUBAR</button>
-            </div>
+            <div class="m-row"><button class="m-btn m-btn-large" onclick="fastDrop()">DERRUBAR</button></div>
         </div>
     </section>
 
@@ -277,6 +262,32 @@
     </footer>
 
     <script>
+        // === BOOT LOADER PEGASUS ===
+        const bootLines = [
+            "> PEGASUS_FRAMEWORK v2.0.26",
+            "> LOADING_KERNEL... DONE",
+            "> INITIALIZING_TACTICAL_ASSETS...",
+            "> SEARCHING_PLAYER_2: ANNY FOUND.",
+            "> DESTINATION: BELO HORIZONTE, MG",
+            "> STATUS: ALL SYSTEMS GO."
+        ];
+        let bootIdx = 0;
+        function typeBoot() {
+            if (bootIdx < bootLines.length) {
+                document.getElementById('boot-text').innerHTML += `<p>${bootLines[bootIdx]}</p>`;
+                bootIdx++;
+                setTimeout(typeBoot, 400); // Velocidade de digitação
+            } else {
+                setTimeout(() => {
+                    const loader = document.getElementById('boot-loader');
+                    loader.style.transition = 'opacity 0.5s';
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 500);
+                }, 800);
+            }
+        }
+        window.onload = typeBoot;
+
         // === PROTEÇÃO DE MEMÓRIA ===
         function getSavedData(key) { try { return localStorage.getItem(key); } catch(e) { return null; } }
         function saveData(key, value) { try { localStorage.setItem(key, value); } catch(e) { console.log("Memória protegida."); } }
@@ -300,20 +311,16 @@
 
         function triggerFusRoDah() {
             if(fusRoDahLocked) return;
-            isSystemDestroyed = true; 
-            fusRoDahLocked = true; 
-
+            isSystemDestroyed = true; fusRoDahLocked = true; 
             document.getElementById('fusAudio').play().catch(e=>{});
             document.getElementById('arcade').style.display = 'none';
 
             const elements = Array.from(document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p'));
-
             setTimeout(() => {
                 elements.forEach(el => {
                     const randomX = (Math.random() - 0.5) * 4000;
                     const randomY = (Math.random() - 0.5) * 4000;
                     const randomRot = (Math.random() - 0.5) * 1080;
-                    
                     el.style.transition = 'transform 2.5s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 1.5s ease-in';
                     el.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRot}deg)`;
                     el.style.opacity = '0';
@@ -326,11 +333,9 @@
                 const overlay = document.getElementById('lego-overlay');
                 overlay.src = "lego.gif?" + new Date().getTime(); 
                 overlay.style.display = 'block';
-                
                 document.getElementById('legoAudio').play().catch(e=>{});
 
                 const buildTime = 2500; 
-                
                 elements.forEach((el, index) => {
                     const delay = (index / elements.length) * buildTime;
                     setTimeout(() => {
@@ -340,22 +345,19 @@
                         el.style.pointerEvents = 'auto';
                     }, delay);
                 });
-                
                 document.body.style.overflow = 'auto';
             }, 4000); 
 
             setTimeout(() => {
                 document.getElementById('lego-overlay').style.display = 'none';
                 isSystemDestroyed = false; 
-                
                 poweredText.innerText = "System Restored (Lego Patch applied)";
                 poweredText.classList.add('lego-locked');
             }, 7000); 
         }
 
         // === PEGASUS TERMINAL ===
-        let pegStr = "";
-        let pegUsed = false;
+        let pegStr = ""; let pegUsed = false;
         window.addEventListener('keydown', e => {
             if(isSystemDestroyed || pegUsed) return;
             if(e.key.length === 1) pegStr += e.key.toLowerCase();
@@ -368,26 +370,16 @@
         });
 
         // === SAVE ROOM RE ===
-        let saveClickCount = 0;
-        let saveTimer;
+        let saveClickCount = 0; let saveTimer;
         function triggerSaveRoom() {
             if(isSystemDestroyed) return;
-            saveClickCount++;
-            clearTimeout(saveTimer);
+            saveClickCount++; clearTimeout(saveTimer);
             if(saveClickCount >= 3) {
                 saveClickCount = 0;
-                
-                if (isMusicPlaying) {
-                    bgMusic.pause();
-                    isMusicPlaying = false;
-                    document.getElementById('audio-control').innerText = "AUDIO: OFF";
-                    document.getElementById('audio-control').style.color = "var(--text-muted)";
-                }
-
+                if (isMusicPlaying) { bgMusic.pause(); isMusicPlaying = false; document.getElementById('audio-control').innerText = "AUDIO: OFF"; document.getElementById('audio-control').style.color = "var(--text-muted)"; }
                 document.getElementById('reAudio').play().catch(e=>{});
                 const notif = document.getElementById('save-notification');
-                notif.style.opacity = 1;
-                setTimeout(() => notif.style.opacity = 0, 4000);
+                notif.style.opacity = 1; setTimeout(() => notif.style.opacity = 0, 4000);
             }
             saveTimer = setTimeout(() => saveClickCount = 0, 1000);
         }
@@ -399,24 +391,18 @@
             achTriggered = true;
             document.getElementById('xbAudio').play().catch(e=>{});
             const ach = document.getElementById('xbox-achievement');
-            ach.classList.add('show');
-            setTimeout(() => ach.classList.remove('show'), 6000); 
+            ach.classList.add('show'); setTimeout(() => ach.classList.remove('show'), 6000); 
         }
 
-        // === CASCATA SWAN ===
+        // === CASCATA SWAN (KONAMI CODE) ===
         const secretCode = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
         let secretIndex = 0;
         document.addEventListener('keydown', function(e) {
             if (isSystemDestroyed || document.getElementById('arcade').style.display === 'flex') return;
             if (e.key === secretCode[secretIndex]) {
                 secretIndex++;
-                if (secretIndex === secretCode.length) {
-                    triggerSwanCascade();
-                    secretIndex = 0;
-                }
-            } else {
-                secretIndex = 0;
-            }
+                if (secretIndex === secretCode.length) { triggerSwanCascade(); secretIndex = 0; }
+            } else { secretIndex = 0; }
         });
 
         function triggerSwanCascade() {
@@ -424,135 +410,71 @@
             for (let i = 0; i < 30; i++) {
                 setTimeout(() => {
                     const el = document.createElement('div');
-                    el.className = 'swan-clickable';
-                    el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-                    el.style.left = Math.random() * 90 + 'vw';
-                    el.style.top = '-50px';
-                    el.style.fontSize = (Math.random() * 30 + 30) + 'px'; 
-                    
+                    el.className = 'swan-clickable'; el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                    el.style.left = Math.random() * 90 + 'vw'; el.style.top = '-50px'; el.style.fontSize = (Math.random() * 30 + 30) + 'px'; 
                     el.onclick = function() {
-                        this.innerText = '❤️';
-                        this.style.transform = 'scale(1.5)';
-                        this.style.transition = 'all 0.3s';
+                        this.innerText = '❤️'; this.style.transform = 'scale(1.5)'; this.style.transition = 'all 0.3s';
                         setTimeout(() => this.remove(), 300);
                     };
-
                     document.body.appendChild(el);
                     el.getBoundingClientRect();
-                    el.style.top = '120vh';
-                    el.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    
+                    el.style.top = '120vh'; el.style.transform = `rotate(${Math.random() * 360}deg)`;
                     setTimeout(() => { if(el.parentElement) el.remove() }, 4000);
                 }, i * 200);
             }
         }
 
-        // === FLY SWATTER WITH BOSS V2 ===
+        // === FLY SWATTER + LAGO DOS CISNES FALLING ===
         const themeBtn = document.getElementById('theme-toggle');
-        let themeClicks = 0;
-        let themeTimer;
-        
+        let themeClicks = 0; let themeTimer;
         themeBtn.addEventListener('click', () => {
             if(isSystemDestroyed) return;
-            toggleTheme();
-            themeClicks++;
-            clearTimeout(themeTimer);
-            if(themeClicks >= 6) {
-                themeClicks = 0;
-                startFlySwatter();
-            }
+            toggleTheme(); themeClicks++; clearTimeout(themeTimer);
+            if(themeClicks >= 6) { themeClicks = 0; startFlySwatter(); }
             themeTimer = setTimeout(() => themeClicks = 0, 1500);
         });
 
         function startFlySwatter() {
             if(document.getElementById('fly-game-container')) return;
-            const container = document.createElement('div');
-            container.id = 'fly-game-container';
+            const container = document.createElement('div'); container.id = 'fly-game-container';
             document.body.appendChild(container);
+            container.innerHTML = `<div id="fly-score">KILLS: 0</div><div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor='auto'">X</div><div id="swatter"><div class="swatter-head" id="hitbox"></div><div class="swatter-handle"></div><div class="swatter-glove">🖐🏻</div></div>`;
             
-            container.innerHTML = `
-                <div id="fly-score">KILLS: 0</div>
-                <div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor='auto'">X</div>
-                <div id="swatter">
-                    <div class="swatter-head" id="hitbox"></div>
-                    <div class="swatter-handle"></div>
-                    <div class="swatter-glove">🖐🏻</div>
-                </div>
-            `;
-            
-            let score = 0;
-            let bossHealth = 15;
-            let bossSpawned = false;
+            let score = 0; let bossHealth = 15; let bossSpawned = false;
             const scoreEl = document.getElementById('fly-score');
-            const swatter = document.getElementById('swatter');
-            const hitbox = document.getElementById('hitbox');
+            const swatter = document.getElementById('swatter'); const hitbox = document.getElementById('hitbox');
             
-            function moveSwatter(x, y) {
-                swatter.style.left = (x - 30) + 'px';
-                swatter.style.top = (y - 80) + 'px';
-            }
-
+            function moveSwatter(x, y) { swatter.style.left = (x - 30) + 'px'; swatter.style.top = (y - 80) + 'px'; }
             container.addEventListener('mousemove', e => moveSwatter(e.clientX, e.clientY));
-            container.addEventListener('touchmove', e => {
-                e.preventDefault();
-                moveSwatter(e.touches[0].clientX, e.touches[0].clientY);
-            }, {passive: false});
+            container.addEventListener('touchmove', e => { e.preventDefault(); moveSwatter(e.touches[0].clientX, e.touches[0].clientY); }, {passive: false});
             
             function hitAction(x, y) {
-                // Animação de Swing (mais rápido)
                 swatter.style.transform = 'rotate(-45deg) scale(0.9)';
-                
-                // Pega posição exata da raquete para calcular hit
                 const hRect = hitbox.getBoundingClientRect();
                 
-                // Checa hit nas moscas comuns
                 document.querySelectorAll('.fly').forEach(fly => {
                     const fRect = fly.getBoundingClientRect();
-                    // Colisão AABB simples
-                    if(hRect.left < fRect.right && hRect.right > fRect.left &&
-                       hRect.top < fRect.bottom && hRect.bottom > fRect.top) {
-                        
-                        fly.style.transition = 'none';
-                        fly.innerHTML = '💥';
-                        fly.style.fontSize = '50px';
-                        fly.style.pointerEvents = 'none';
+                    if(hRect.left < fRect.right && hRect.right > fRect.left && hRect.top < fRect.bottom && hRect.bottom > fRect.top) {
+                        fly.style.transition = 'none'; fly.innerHTML = '💥'; fly.style.fontSize = '50px'; fly.style.pointerEvents = 'none';
                         setTimeout(() => fly.remove(), 250);
-                        
-                        score++; 
-                        scoreEl.innerText = 'KILLS: ' + score + (bossSpawned ? ' (BOSS FIGHT!)' : '');
-                        
-                        if(score === 15 && !bossSpawned) spawnBoss(container);
-                        else if (!bossSpawned) setTimeout(() => spawnFly(container), 800);
+                        if (fly.dataset.type !== 'bonus') {
+                            score++; scoreEl.innerText = 'KILLS: ' + score + (bossSpawned ? ' (BOSS FIGHT!)' : '');
+                            if(score === 15 && !bossSpawned) spawnBoss(container);
+                            else if (!bossSpawned) setTimeout(() => spawnFly(container), 800);
+                        }
                     }
                 });
 
-                // Checa hit no Boss
                 const boss = document.querySelector('.boss-fly');
                 if (boss) {
                     const bRect = boss.getBoundingClientRect();
-                    if(hRect.left < bRect.right && hRect.right > bRect.left &&
-                       hRect.top < bRect.bottom && hRect.bottom > bRect.top) {
-                        
-                        bossHealth--;
-                        boss.style.animation = 'bossHit 0.2s infinite';
-                        boss.style.filter = 'drop-shadow(0 0 20px red) brightness(1.5)';
-                        
-                        setTimeout(() => {
-                            boss.style.animation = bossSpawned ? 'bossFloat 2s infinite ease-in-out' : '';
-                            boss.style.filter = 'drop-shadow(0 0 10px rgba(255,0,0,0.5))';
-                        }, 200);
-
+                    if(hRect.left < bRect.right && hRect.right > bRect.left && hRect.top < bRect.bottom && hRect.bottom > bRect.top) {
+                        bossHealth--; boss.style.animation = 'bossHit 0.2s infinite'; boss.style.filter = 'drop-shadow(0 0 20px red) brightness(1.5)';
+                        setTimeout(() => { boss.style.animation = bossSpawned ? 'bossFloat 2s infinite ease-in-out' : ''; boss.style.filter = 'drop-shadow(0 0 10px rgba(255,0,0,0.5))'; }, 200);
                         if(bossHealth <= 0) {
-                            boss.src = '';
-                            boss.alt = '💥VITÓRIA!💥';
-                            boss.style.fontSize = '30px';
-                            boss.style.color = 'yellow';
-                            boss.style.transform = 'translate(-50%, -50%) scale(1.5)';
-                            boss.style.animation = 'none';
-                            scoreEl.innerText = 'VITÓRIA! KING WATINGA ELIMINADO!';
-                            scoreEl.style.color = '#f1fa8c';
-                            setTimeout(() => { boss.remove(); }, 1500);
-                            setTimeout(() => { if(container) container.remove(); document.body.style.cursor='auto'; }, 3000);
+                            boss.src = ''; boss.alt = '💥VITÓRIA!💥'; boss.style.fontSize = '30px'; boss.style.color = 'yellow'; boss.style.transform = 'translate(-50%, -50%) scale(1.5)'; boss.style.animation = 'none';
+                            scoreEl.innerText = 'VITÓRIA! KING WATINGA ELIMINADO!'; scoreEl.style.color = '#f1fa8c';
+                            setTimeout(() => { boss.remove(); }, 1500); setTimeout(() => { if(container) container.remove(); document.body.style.cursor='auto'; }, 3000);
                         }
                     }
                 }
@@ -561,36 +483,17 @@
 
             container.addEventListener('mousedown', e => hitAction(e.clientX, e.clientY));
             container.addEventListener('touchstart', e => hitAction(e.touches[0].clientX, e.touches[0].clientY));
-            
             for(let i=0; i<6; i++) spawnFly(container);
 
             function spawnBoss(cont) {
-                bossSpawned = true;
-                const boss = document.createElement('img');
-                boss.className = 'boss-fly';
-                boss.src = 'KingWatinga.png';
-                boss.alt = '👹'; 
-                boss.style.left = '50%';
-                boss.style.top = '30%';
-                boss.style.animation = 'bossFloat 2s infinite ease-in-out';
-                cont.appendChild(boss);
-                
+                bossSpawned = true; const boss = document.createElement('img'); boss.className = 'boss-fly'; boss.src = 'KingWatinga.png'; boss.alt = '👹'; boss.style.left = '50%'; boss.style.top = '30%'; boss.style.animation = 'bossFloat 2s infinite ease-in-out'; cont.appendChild(boss);
                 setInterval(() => {
                     if(!boss.parentElement || bossHealth <= 0) return;
-                    let targetX = Math.random() * (window.innerWidth - 150) + 75;
-                    let targetY = Math.random() * (window.innerHeight - 150) + 75;
-                    boss.style.left = targetX + 'px';
-                    boss.style.top = targetY + 'px';
-
-                    // Ataque do Boss (Empurrão + Tela Vermelha)
+                    let targetX = Math.random() * (window.innerWidth - 150) + 75; let targetY = Math.random() * (window.innerHeight - 150) + 75;
+                    boss.style.left = targetX + 'px'; boss.style.top = targetY + 'px';
                     if(Math.random() > 0.6) {
-                        cont.style.backgroundColor = 'rgba(255,0,0,0.3)';
-                        swatter.style.transition = 'all 0.15s ease-out';
-                        swatter.style.transform = 'translateY(120px) rotate(25deg)';
-                        setTimeout(() => {
-                            cont.style.backgroundColor = 'rgba(0,0,0,0.7)';
-                            swatter.style.transition = 'transform 0.05s';
-                        }, 300);
+                        cont.style.backgroundColor = 'rgba(255,0,0,0.3)'; swatter.style.transition = 'all 0.15s ease-out'; swatter.style.transform = 'translateY(120px) rotate(25deg)';
+                        setTimeout(() => { cont.style.backgroundColor = 'rgba(0,0,0,0.7)'; swatter.style.transition = 'transform 0.05s'; }, 300);
                     }
                 }, 1200);
             }
@@ -598,297 +501,206 @@
 
         function spawnFly(container) {
             if(!document.getElementById('fly-game-container')) return;
-            const fly = document.createElement('img');
+            const fly = document.createElement('div');
             fly.className = 'fly'; 
-            fly.src = 'OneGnatGA.png'; 
-            fly.alt = '𓆦'; 
-            fly.style.left = Math.random() * (window.innerWidth - 40) + 'px';
-            fly.style.top = Math.random() * (window.innerHeight - 40) + 'px';
+            
+            // Lógica Lago dos Cisnes x Moscas
+            const rand = Math.random();
+            if (rand > 0.92) {
+                fly.innerHTML = '🩰'; fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
+                fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = '-50px';
+            } else if (rand > 0.85) {
+                fly.innerHTML = '🦢'; fly.dataset.type = 'bonus'; fly.style.fontSize = '40px';
+                fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = '-50px';
+            } else {
+                fly.innerHTML = '<img src="OneGnatGA.png" alt="𓆦" style="width:100%;height:100%; object-fit:contain;">';
+                fly.style.left = Math.random() * (window.innerWidth - 40) + 'px'; fly.style.top = Math.random() * (window.innerHeight - 40) + 'px';
+            }
             container.appendChild(fly);
             
             setInterval(() => {
                 if(!fly.parentElement || !fly.classList.contains('fly')) return;
-                let currentX = parseFloat(fly.style.left); let currentY = parseFloat(fly.style.top);
-                fly.style.left = Math.max(0, Math.min(window.innerWidth - 40, currentX + (Math.random() - 0.5) * 400)) + 'px';
-                fly.style.top = Math.max(0, Math.min(window.innerHeight - 40, currentY + (Math.random() - 0.5) * 400)) + 'px';
+                let currentX = parseFloat(fly.style.left) || 0; let currentY = parseFloat(fly.style.top) || 0;
+                
+                if (fly.dataset.type === 'bonus') {
+                    // Cisnes e Sapatos caem verticalmente
+                    fly.style.top = (currentY + 15) + 'px';
+                    if (currentY > window.innerHeight) fly.remove();
+                } else {
+                    // Moscas se movem caóticas
+                    fly.style.left = Math.max(0, Math.min(window.innerWidth - 40, currentX + (Math.random() - 0.5) * 400)) + 'px';
+                    fly.style.top = Math.max(0, Math.min(window.innerHeight - 40, currentY + (Math.random() - 0.5) * 400)) + 'px';
+                }
             }, 500); 
         }
 
-        // === CORE ENGINE ===
+        // === ATTACHE CASE INVENTORY RE4 (DESBLOQUEIO POR SCROLL) ===
+        let scrollChanges = 0; let lastScrollPos = window.scrollY; let lastScrollDirection = 0; let scrollResetTimer;
+        window.addEventListener('scroll', () => {
+            if (isSystemDestroyed || document.getElementById('attache-case-overlay').style.display === 'flex') return;
+            let currentScrollPos = window.scrollY;
+            if (Math.abs(currentScrollPos - lastScrollPos) < 10) return; 
+            let currentDirection = currentScrollPos > lastScrollPos ? 1 : -1;
+            if (lastScrollDirection !== 0 && currentDirection !== lastScrollDirection) scrollChanges++;
+            lastScrollDirection = currentDirection; lastScrollPos = currentScrollPos;
+            clearTimeout(scrollResetTimer);
+            if (scrollChanges >= 20) { scrollChanges = 0; openAttacheCase(); }
+            scrollResetTimer = setTimeout(() => { scrollChanges = 0; }, 600);
+        });
+
+        const GRID_SIZE = 40;
+        const itemsData = [
+            { src: 'RE4R_CQBR_Assault_Rifle.png', w: 4, h: 2 }, { src: 'RE4R_SG-09_R.png', w: 2, h: 2 },
+            { src: 'RE4R_TMP.png', w: 2, h: 2 }, { src: 'Bio_Resu_Combat_Knife - Copia.png', w: 1, h: 3 },
+            { src: 'Bio_resu_first_aid_spray.png', w: 1, h: 2 }, { src: 'RE4R_Magnum_Ammo.png', w: 2, h: 1 },
+            { src: 'RE4R_Rifle_Ammo.png', w: 2, h: 1 }, { src: 'RE4R_Shotgun_Shells.png', w: 2, h: 1 },
+            { src: 'RE4R_Submachine_Gun_Ammo.png', w: 2, h: 1 }
+        ];
+
+        function openAttacheCase() {
+            const overlay = document.getElementById('attache-case-overlay'); const grid = document.getElementById('attache-case-grid');
+            overlay.style.display = 'flex'; grid.innerHTML = '';
+            const gridRect = grid.getBoundingClientRect();
+            const maxCols = Math.floor(gridRect.width / GRID_SIZE); const maxRows = Math.floor(gridRect.height / GRID_SIZE);
+
+            itemsData.forEach(data => {
+                const img = document.createElement('img'); img.src = data.src; img.className = 're4-item';
+                img.style.width = (data.w * GRID_SIZE) + 'px'; img.style.height = (data.h * GRID_SIZE) + 'px';
+                let randomCol = Math.max(0, Math.floor(Math.random() * (maxCols - data.w)));
+                let randomRow = Math.max(0, Math.floor(Math.random() * (maxRows - data.h)));
+                img.style.left = (randomCol * GRID_SIZE) + 'px'; img.style.top = (randomRow * GRID_SIZE) + 'px';
+                img.dataset.rotated = "false"; img.dataset.slotsW = data.w; img.dataset.slotsH = data.h;
+                makeDraggable(img, grid); grid.appendChild(img);
+            });
+            try { document.getElementById('xbAudio').play(); } catch(e){}
+        }
+
+        function closeAttacheCase() { document.getElementById('attache-case-overlay').style.display = 'none'; }
+
+        function makeDraggable(el, container) {
+            let startX = 0, startY = 0, initialLeft = 0, initialTop = 0, isDragging = false, lastTap = 0;
+            el.addEventListener('mousedown', dragStart); el.addEventListener('touchstart', dragStart, {passive: false});
+
+            function dragStart(e) {
+                e.preventDefault();
+                const tapLength = new Date().getTime() - lastTap;
+                if (tapLength < 300 && tapLength > 0) { rotateItem(el); return; }
+                lastTap = new Date().getTime();
+                isDragging = true;
+                if (e.type === 'touchstart') { startX = e.touches[0].clientX; startY = e.touches[0].clientY; } else { startX = e.clientX; startY = e.clientY; }
+                initialLeft = parseInt(el.style.left, 10) || 0; initialTop = parseInt(el.style.top, 10) || 0;
+                document.addEventListener('mousemove', dragMove); document.addEventListener('mouseup', dragEnd);
+                document.addEventListener('touchmove', dragMove, {passive: false}); document.addEventListener('touchend', dragEnd);
+            }
+
+            function dragMove(e) {
+                if (!isDragging) return; e.preventDefault();
+                let currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                let currentY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                el.style.left = (initialLeft + (currentX - startX)) + 'px'; el.style.top = (initialTop + (currentY - startY)) + 'px';
+            }
+
+            function dragEnd() {
+                isDragging = false;
+                document.removeEventListener('mousemove', dragMove); document.removeEventListener('mouseup', dragEnd);
+                document.removeEventListener('touchmove', dragMove); document.removeEventListener('touchend', dragEnd);
+                let snappedLeft = Math.round(parseInt(el.style.left, 10) / GRID_SIZE) * GRID_SIZE;
+                let snappedTop = Math.round(parseInt(el.style.top, 10) / GRID_SIZE) * GRID_SIZE;
+                const maxLeft = container.getBoundingClientRect().width - el.getBoundingClientRect().width;
+                const maxTop = container.getBoundingClientRect().height - el.getBoundingClientRect().height;
+                if (snappedLeft < 0) snappedLeft = 0; if (snappedTop < 0) snappedTop = 0;
+                if (snappedLeft > maxLeft) snappedLeft = Math.round(maxLeft / GRID_SIZE) * GRID_SIZE;
+                if (snappedTop > maxTop) snappedTop = Math.round(maxTop / GRID_SIZE) * GRID_SIZE;
+                el.style.left = snappedLeft + 'px'; el.style.top = snappedTop + 'px';
+            }
+        }
+
+        function rotateItem(el) {
+            if (el.dataset.rotated === "false") { el.style.transform = "rotate(90deg)"; el.dataset.rotated = "true"; } 
+            else { el.style.transform = "rotate(0deg)"; el.dataset.rotated = "false"; }
+        }
+
+        // === CORE ENGINE UI ===
         let verseTimeout;
         function showVerse(person) {
             if(isSystemDestroyed) return;
-            const box = document.getElementById('verse-display');
-            clearTimeout(verseTimeout);
-            if (person === 'anny') {
-                box.innerHTML = '"Quem encontra uma esposa encontra algo excelente; recebeu uma bênção do Senhor."<br>— Provérbios 18:22';
-            } else if (person === 'alex') {
-                box.innerHTML = '"Maridos, amem suas mulheres, assim como Cristo amou a igreja e entregou-se a si mesmo por ela."<br>— Efésios 5:25';
-            }
-            box.style.opacity = 1;
-            verseTimeout = setTimeout(() => { box.style.opacity = 0; }, 8000);
+            const box = document.getElementById('verse-display'); clearTimeout(verseTimeout);
+            if (person === 'anny') box.innerHTML = '"Quem encontra uma esposa encontra algo excelente; recebeu uma bênção do Senhor."<br>— Provérbios 18:22';
+            else if (person === 'alex') box.innerHTML = '"Maridos, amem suas mulheres, assim como Cristo amou a igreja e entregou-se a si mesmo por ela."<br>— Efésios 5:25';
+            box.style.opacity = 1; verseTimeout = setTimeout(() => { box.style.opacity = 0; }, 8000);
         }
 
-        if (getSavedData('ourwedding_theme') === 'light') {
-            document.body.setAttribute('data-theme', 'light');
-            document.getElementById('theme-toggle').innerHTML = '☾';
-        }
-        
+        if (getSavedData('ourwedding_theme') === 'light') { document.body.setAttribute('data-theme', 'light'); document.getElementById('theme-toggle').innerHTML = '☾'; }
         function toggleTheme() {
             const btn = document.getElementById('theme-toggle');
-            if (document.body.getAttribute('data-theme') === 'light') {
-                document.body.removeAttribute('data-theme');
-                saveData('ourwedding_theme', 'dark');
-                btn.innerHTML = '☀︎';
-            } else {
-                document.body.setAttribute('data-theme', 'light');
-                saveData('ourwedding_theme', 'light');
-                btn.innerHTML = '☾';
-            }
+            if (document.body.getAttribute('data-theme') === 'light') { document.body.removeAttribute('data-theme'); saveData('ourwedding_theme', 'dark'); btn.innerHTML = '☀︎'; } 
+            else { document.body.setAttribute('data-theme', 'light'); saveData('ourwedding_theme', 'light'); btn.innerHTML = '☾'; }
         }
 
-        const bgMusic = document.getElementById('bgMusic');
-        bgMusic.volume = 0.15; 
-        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bgMusic'); bgMusic.volume = 0.15; let isMusicPlaying = false;
         function toggleAudio() {
             if(isSystemDestroyed) return;
-            if (isMusicPlaying) {
-                bgMusic.pause();
-                document.getElementById('audio-control').innerText = "AUDIO: OFF";
-                document.getElementById('audio-control').style.color = "var(--text-muted)";
-            } else {
-                bgMusic.play();
-                document.getElementById('audio-control').innerText = "AUDIO: ON";
-                document.getElementById('audio-control').style.color = "var(--dracula-purple)";
-            }
+            if (isMusicPlaying) { bgMusic.pause(); document.getElementById('audio-control').innerText = "AUDIO: OFF"; document.getElementById('audio-control').style.color = "var(--text-muted)"; } 
+            else { bgMusic.play(); document.getElementById('audio-control').innerText = "AUDIO: ON"; document.getElementById('audio-control').style.color = "var(--dracula-purple)"; }
             isMusicPlaying = !isMusicPlaying;
         }
 
         document.body.addEventListener('click', function(event) {
             if (!isMusicPlaying && event.target.id !== 'theme-toggle' && event.target.id !== 'audio-control' && !isSystemDestroyed) {
-                bgMusic.play().then(() => {
-                    isMusicPlaying = true;
-                    document.getElementById('audio-control').innerText = "AUDIO: ON";
-                    document.getElementById('audio-control').style.color = "var(--dracula-purple)";
-                }).catch(e => {});
+                bgMusic.play().then(() => { isMusicPlaying = true; document.getElementById('audio-control').innerText = "AUDIO: ON"; document.getElementById('audio-control').style.color = "var(--dracula-purple)"; }).catch(e => {});
             }
         }, { once: true });
 
-        function confirmRSVP(btn) {
-            if(isSystemDestroyed) return;
-            alert('RSVP Confirmado!');
-            btn.innerHTML = 'CONFIRMADO';
-            btn.style.backgroundColor = 'var(--text-color)';
-            btn.style.color = 'var(--bg-color)';
-        }
+        function confirmRSVP(btn) { if(isSystemDestroyed) return; alert('RSVP Confirmado!'); btn.innerHTML = 'CONFIRMADO'; btn.style.backgroundColor = 'var(--text-color)'; btn.style.color = 'var(--bg-color)'; }
 
         const weddingDate = new Date("March 23, 2028 19:00:00").getTime();
         function updateTimer() {
-            const now = new Date().getTime();
-            const diff = weddingDate - now;
-            if (diff < 0) {
-                document.getElementById("timer").innerHTML = "A MISSÃO FOI CONCLUÍDA.";
-                return;
-            }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const now = new Date().getTime(); const diff = weddingDate - now;
+            if (diff < 0) { document.getElementById("timer").innerHTML = "A MISSÃO FOI CONCLUÍDA."; return; }
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24)); const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             document.getElementById("timer").innerHTML = days + " DIAS | " + hours + " HORAS | " + mins + " MINUTOS RESTANTES";
         }
-        updateTimer(); 
-        setInterval(updateTimer, 1000);
+        updateTimer(); setInterval(updateTimer, 1000);
 
         // === TETRIS ===
         let gameStarted = false;
         function revealArcade() {
             if(isSystemDestroyed) return;
-            const arc = document.getElementById('arcade');
-            arc.style.display = 'flex';
-            window.scrollTo({ top: arc.offsetTop, behavior: 'smooth' });
+            const arc = document.getElementById('arcade'); arc.style.display = 'flex'; window.scrollTo({ top: arc.offsetTop, behavior: 'smooth' });
             if (!gameStarted) startTetris();
         }
 
-        const canvas = document.getElementById('tetris');
-        const context = canvas.getContext('2d');
-        context.scale(20, 20);
+        const canvas = document.getElementById('tetris'); const context = canvas.getContext('2d'); context.scale(20, 20);
         const COLORS = [ null, '#8be9fd', '#ff79c6', '#ffb86c', '#f1fa8c', '#50fa7b', '#bd93f9', '#ff5555' ];
 
         function createPiece(type) {
-            if (type === 'I') return [[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]];
-            if (type === 'L') return [[0,2,0],[0,2,0],[0,2,2]];
-            if (type === 'J') return [[0,3,0],[0,3,0],[3,3,0]];
-            if (type === 'O') return [[4,4],[4,4]];
-            if (type === 'Z') return [[5,5,0],[0,5,5],[0,0,0]];
-            if (type === 'S') return [[0,6,6],[6,6,0],[0,0,0]];
-            if (type === 'T') return [[0,7,0],[7,7,7],[0,0,0]];
+            if (type === 'I') return [[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]]; if (type === 'L') return [[0,2,0],[0,2,0],[0,2,2]];
+            if (type === 'J') return [[0,3,0],[0,3,0],[3,3,0]]; if (type === 'O') return [[4,4],[4,4]];
+            if (type === 'Z') return [[5,5,0],[0,5,5],[0,0,0]]; if (type === 'S') return [[0,6,6],[6,6,0],[0,0,0]]; if (type === 'T') return [[0,7,0],[7,7,7],[0,0,0]];
         }
-
-        function draw() {
-            context.fillStyle = '#050505'; 
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            drawMatrix(arena, {x: 0, y: 0});
-            drawMatrix(player.matrix, player.pos);
-        }
-
-        function drawMatrix(matrix, offset) {
-            matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) {
-                        context.fillStyle = COLORS[value];
-                        context.fillRect(x + offset.x, y + offset.y, 1, 1);
-                        context.strokeStyle = '#000';
-                        context.lineWidth = 0.05;
-                        context.strokeRect(x + offset.x, y + offset.y, 1, 1);
-                    }
-                });
-            });
-        }
-
-        function arenaSweep() {
-            let rowCount = 1;
-            outer: for (let y = arena.length - 1; y > 0; --y) {
-                for (let x = 0; x < arena[y].length; ++x) {
-                    if (arena[y][x] === 0) continue outer;
-                }
-                const row = arena.splice(y, 1)[0].fill(0);
-                arena.unshift(row);
-                ++y;
-                player.score += rowCount * 10;
-                rowCount *= 2;
-            }
-            updateScore();
-        }
-
-        function collide(arena, player) {
-            const [m, o] = [player.matrix, player.pos];
-            for (let y = 0; y < m.length; ++y) {
-                for (let x = 0; x < m[y].length; ++x) {
-                    if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) return true;
-                }
-            }
-            return false;
-        }
-
-        function merge(arena, player) {
-            player.matrix.forEach((row, y) => {
-                row.forEach((value, x) => {
-                    if (value !== 0) arena[y + player.pos.y][x + player.pos.x] = value;
-                });
-            });
-        }
-
-        function rotateMatrix(matrix, dir) {
-            for (let y = 0; y < matrix.length; ++y) {
-                for (let x = 0; x < y; ++x) {
-                    [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
-                }
-            }
-            if (dir > 0) matrix.forEach(row => row.reverse());
-            else matrix.reverse();
-        }
-
-        function playerDrop() {
-            player.pos.y++;
-            if (collide(arena, player)) {
-                player.pos.y--;
-                merge(arena, player);
-                playerReset();
-                arenaSweep();
-            }
-            dropCounter = 0;
-        }
+        function draw() { context.fillStyle = '#050505'; context.fillRect(0, 0, canvas.width, canvas.height); drawMatrix(arena, {x: 0, y: 0}); drawMatrix(player.matrix, player.pos); }
+        function drawMatrix(matrix, offset) { matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) { context.fillStyle = COLORS[value]; context.fillRect(x + offset.x, y + offset.y, 1, 1); context.strokeStyle = '#000'; context.lineWidth = 0.05; context.strokeRect(x + offset.x, y + offset.y, 1, 1); } }); }); }
+        function arenaSweep() { let rowCount = 1; outer: for (let y = arena.length - 1; y > 0; --y) { for (let x = 0; x < arena[y].length; ++x) { if (arena[y][x] === 0) continue outer; } const row = arena.splice(y, 1)[0].fill(0); arena.unshift(row); ++y; player.score += rowCount * 10; rowCount *= 2; } updateScore(); }
+        function collide(arena, player) { const [m, o] = [player.matrix, player.pos]; for (let y = 0; y < m.length; ++y) { for (let x = 0; x < m[y].length; ++x) { if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) return true; } } return false; }
+        function merge(arena, player) { player.matrix.forEach((row, y) => { row.forEach((value, x) => { if (value !== 0) arena[y + player.pos.y][x + player.pos.x] = value; }); }); }
+        function rotateMatrix(matrix, dir) { for (let y = 0; y < matrix.length; ++y) { for (let x = 0; x < y; ++x) { [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]]; } } if (dir > 0) matrix.forEach(row => row.reverse()); else matrix.reverse(); }
+        function playerDrop() { player.pos.y++; if (collide(arena, player)) { player.pos.y--; merge(arena, player); playerReset(); arenaSweep(); } dropCounter = 0; }
+        function fastDrop() { while(!collide(arena, player)) player.pos.y++; player.pos.y--; playerDrop(); }
+        function playerMove(dir) { player.pos.x += dir; if (collide(arena, player)) player.pos.x -= dir; }
+        function playerReset() { const pieces = 'ILJOTSZ'; player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]); player.pos.y = 0; player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0); if (collide(arena, player)) { arena.forEach(row => row.fill(0)); if (player.score > highScore) { highScore = player.score; saveData('pegasusTetrisRecord', highScore); } player.score = 0; updateScore(); } }
+        function playerRotate(dir) { const pos = player.pos.x; let offset = 1; rotateMatrix(player.matrix, dir); while (collide(arena, player)) { player.pos.x += offset; offset = -(offset + (offset > 0 ? 1 : -1)); if (offset > player.matrix[0].length) { rotateMatrix(player.matrix, -dir); player.pos.x = pos; return; } } }
         
-        function fastDrop() {
-            while(!collide(arena, player)) player.pos.y++; 
-            player.pos.y--; 
-            playerDrop(); 
-        }
-
-        function playerMove(dir) {
-            player.pos.x += dir;
-            if (collide(arena, player)) player.pos.x -= dir;
-        }
-
-        function playerReset() {
-            const pieces = 'ILJOTSZ';
-            player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
-            player.pos.y = 0;
-            player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
-            if (collide(arena, player)) {
-                arena.forEach(row => row.fill(0));
-                if (player.score > highScore) {
-                    highScore = player.score;
-                    saveData('pegasusTetrisRecord', highScore);
-                }
-                player.score = 0;
-                updateScore();
-            }
-        }
-
-        function playerRotate(dir) {
-            const pos = player.pos.x;
-            let offset = 1;
-            rotateMatrix(player.matrix, dir);
-            while (collide(arena, player)) {
-                player.pos.x += offset;
-                offset = -(offset + (offset > 0 ? 1 : -1));
-                if (offset > player.matrix[0].length) {
-                    rotateMatrix(player.matrix, -dir);
-                    player.pos.x = pos;
-                    return;
-                }
-            }
-        }
-
-        let dropCounter = 0;
-        let dropInterval = 1000;
-        let lastTime = 0;
-        let highScore = parseInt(getSavedData('pegasusTetrisRecord')) || 0;
-
-        function update(time = 0) {
-            if(isSystemDestroyed) return; 
-            const deltaTime = time - lastTime;
-            lastTime = time;
-            dropCounter += deltaTime;
-            if (dropCounter > dropInterval) playerDrop();
-            draw();
-            requestAnimationFrame(update);
-        }
-
-        function updateScore() {
-            document.getElementById('score').innerText = player.score;
-            document.getElementById('high-score').innerText = highScore;
-        }
-
-        const arena = [];
-        let rows = 20;
-        while (rows--) arena.push(new Array(12).fill(0));
+        let dropCounter = 0; let dropInterval = 1000; let lastTime = 0; let highScore = parseInt(getSavedData('pegasusTetrisRecord')) || 0;
+        function update(time = 0) { if(isSystemDestroyed) return; const deltaTime = time - lastTime; lastTime = time; dropCounter += deltaTime; if (dropCounter > dropInterval) playerDrop(); draw(); requestAnimationFrame(update); }
+        function updateScore() { document.getElementById('score').innerText = player.score; document.getElementById('high-score').innerText = highScore; }
+        
+        const arena = []; let rows = 20; while (rows--) arena.push(new Array(12).fill(0));
         const player = { pos: {x: 0, y: 0}, matrix: null, score: 0 };
-
-        window.addEventListener("keydown", function(e) {
-            if(isSystemDestroyed) return;
-            if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
-                if (document.getElementById('arcade').style.display === 'flex') {
-                    e.preventDefault();
-                }
-            }
-        }, false);
-
-        document.addEventListener('keydown', event => {
-            if (isSystemDestroyed || document.getElementById('arcade').style.display !== 'flex') return;
-            if (event.keyCode === 37) playerMove(-1);
-            else if (event.keyCode === 39) playerMove(1);
-            else if (event.keyCode === 40) playerDrop();
-            else if (event.keyCode === 38) playerRotate(1);
-            else if (event.keyCode === 32) fastDrop();
-        });
-
-        function startTetris() {
-            gameStarted = true;
-            playerReset();
-            updateScore();
-            update();
-        }
+        
+        window.addEventListener("keydown", function(e) { if(isSystemDestroyed) return; if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) { if (document.getElementById('arcade').style.display === 'flex') e.preventDefault(); } }, false);
+        document.addEventListener('keydown', event => { if (isSystemDestroyed || document.getElementById('arcade').style.display !== 'flex') return; if (event.keyCode === 37) playerMove(-1); else if (event.keyCode === 39) playerMove(1); else if (event.keyCode === 40) playerDrop(); else if (event.keyCode === 38) playerRotate(1); else if (event.keyCode === 32) fastDrop(); });
+        
+        function startTetris() { gameStarted = true; playerReset(); updateScore(); update(); }
     </script>
 </body>
 </html>
