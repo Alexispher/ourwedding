@@ -128,7 +128,7 @@ window.addEventListener('keydown', (e) => {
 
 function triggerSwanCascade() {
     console.log("> [SWAN_LAKE] Efeito Cascata Iniciado.");
-    const symbols = ['🦢', '🩰', '🖤', '✨'];
+    const symbols = ['🦢', '🩰', '🖤'];
     
     for (let i = 0; i < 45; i++) {
         setTimeout(() => {
