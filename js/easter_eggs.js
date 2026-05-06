@@ -55,24 +55,18 @@ window.triggerXboxAchievement = function() {
 
     const ach = document.getElementById('xbox-achievement');
     if(ach) {
-        // Garante que inicie na Fase 1 (Troféu)
         ach.classList.remove('expanded');
-        
-        // A Pílula sobe na tela
         ach.classList.add('show'); 
         
-        // FASE 2: Após 2.5 segundos, o ícone vira e o texto sobe
         setTimeout(() => {
             ach.classList.add('expanded');
         }, 2500);
 
-        // FIM: Nos exatos 10 segundos, a Pílula desce e o gatilho reseta
         setTimeout(() => { 
             ach.classList.remove('show'); 
-            
             setTimeout(() => { 
-                ach.classList.remove('expanded'); // Reseta a Fase
-                achTriggered = false; // Libera pra usar de novo
+                ach.classList.remove('expanded'); 
+                achTriggered = false; 
             }, 1000); 
         }, 10000); 
     }
@@ -107,20 +101,16 @@ let mk1Timer;
 window.addEventListener('keydown', (e) => {
     if(typeof isSystemDestroyed !== 'undefined' && isSystemDestroyed) return;
     
-    // Filtra apenas as setas direcionais para o Fatality
     if(["ArrowDown", "ArrowRight", "ArrowLeft", "ArrowUp"].includes(e.key)) {
         mk1Sequence.push(e.key);
         
-        // Mantém apenas os últimos 3 inputs na memória
         if (mk1Sequence.length > 3) mk1Sequence.shift();
         
-        // Checa se o input foi exatamente Baixo, Direita, Baixo
         if (mk1Sequence.join(',') === 'ArrowDown,ArrowRight,ArrowDown') {
-            mk1Sequence = []; // Limpa a memória após o sucesso
+            mk1Sequence = []; 
             triggerSwanCascade();
         }
         
-        // Se demorar mais de 1.5 segundos entre as teclas, reseta a sequência
         clearTimeout(mk1Timer);
         mk1Timer = setTimeout(() => { mk1Sequence = []; }, 1500);
     }
@@ -128,7 +118,7 @@ window.addEventListener('keydown', (e) => {
 
 function triggerSwanCascade() {
     console.log("> [SWAN_LAKE] Efeito Cascata Iniciado.");
-    const symbols = ['🦢', '🩰', '🖤'];
+    const symbols = ['🦢', '🩰', '🖤', '✨'];
     
     for (let i = 0; i < 45; i++) {
         setTimeout(() => {
@@ -141,12 +131,10 @@ function triggerSwanCascade() {
             el.style.fontSize = (Math.random() * 25 + 20) + 'px';
             el.style.cursor = 'crosshair';
             el.style.userSelect = 'none';
-            el.style.pointerEvents = 'auto'; // Permite que o usuário clique neles
+            el.style.pointerEvents = 'auto'; 
             
-            // Física de queda fluida: desce e roda em 3D
             el.style.transition = 'top 5s linear, transform 5s ease-in-out, opacity 5s ease-out';
             
-            // Efeito interativo: estourar o cisne
             el.onclick = function() {
                 this.innerText = '✨';
                 this.style.transform = 'scale(1.5)';
@@ -156,17 +144,14 @@ function triggerSwanCascade() {
 
             document.body.appendChild(el);
             
-            // Força o navegador a renderizar o elemento antes de aplicar a animação
             el.getBoundingClientRect();
             
             const randomRotation = (Math.random() - 0.5) * 500;
             el.style.top = '110vh';
             el.style.transform = `rotate(${randomRotation}deg) scale(${Math.random() + 0.5})`;
             
-            // Faz desaparecer suavemente antes de bater no fundo
             setTimeout(() => el.style.opacity = '0', 4000); 
 
-            // Remove do HTML depois que a animação acaba
             setTimeout(() => { if(el.parentElement) el.remove(); }, 5000);
         }, i * 150);
     }
