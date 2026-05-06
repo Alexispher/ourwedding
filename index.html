@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ourwedding | Alex & Anny</title>
+    <!-- CSS PRINCIPAL -->
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <!-- BOOT LOADER -->
+    <div id="boot-loader">
+        <div id="boot-text"></div><span class="cursor-blink">_</span>
+    </div>
+
+    <!-- ÁUDIO PRINCIPAL -->
+    <audio id="bgMusic" src="assets/audio/UIFY.mp3" loop preload="auto"></audio>
+
+    <!-- CONTROLES DO TOPO -->
+    <div class="top-controls">
+        <div id="theme-toggle" class="control-btn" title="Alternar Modo Claro/Escuro">☀︎</div>
+        <div id="audio-control" class="control-btn">AUDIO: OFF</div>
+    </div>
+
+    <header><h2>ourwedding</h2></header>
+    
+    <!-- HERO SECTION (Nomes) -->
+    <section class="hero">
+        <h1>
+            <span class="name-trigger" onclick="showVerse('alex')">Alex</span> 
+            <span class="amp">&</span> 
+            <span class="name-trigger" onclick="showVerse('anny')">Anny</span>
+        </h1>
+        <p>O Início de um Novo Capítulo</p>
+        <div id="verse-display" class="verse-box"></div>
+    </section>
+
+    <!-- TIMER -->
+    <div class="countdown-container" id="timer">INICIANDO SINCRONIZAÇÃO DE TEMPO...</div>
+
+    <!-- INFORMAÇÕES -->
+    <section class="section">
+        <h2>A Celebração</h2>
+        <p>Convidamos você para testemunhar e celebrar este momento único. Uma ocasião marcada pela essência e conexão, onde duas histórias se encontram para formar uma só.</p>
+        <div class="details"><p>Belo Horizonte, MG<br>Março de 2028</p></div>
+    </section>
+
+    <!-- DRESS CODE TÁTICO/NOIR -->
+    <section class="section alt-bg">
+        <h2>Protocolo de Vestimenta</h2>
+        <p>Para preservar a estética e a identidade cuidadosamente concebidas para esta celebração, o cumprimento integral do dress code é <strong>condição obrigatória</strong> para participação no evento. O destaque desta noite pertence única e exclusivamente à noiva.</p>
+        
+        <div class="dress-code-box">
+            <p><strong>MULHERES:</strong> Não será permitido o uso de branco, off-white, cores vibrantes ou estampas chamativas. Solicita-se a utilização de trajes em tons escuros ou paletas fechadas.</p>
+            <p><strong>HOMENS:</strong> Traje social clássico em tons escuros, alinhado à proposta estética da cerimônia.</p>
+            <p class="warning-text">Atenção: Convidados que optarem por não seguir estas diretrizes, por livre escolha, compreendem que não participarão do evento.</p>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="section">
+        <h2>Confirmação</h2>
+        <p>Por favor, confirme sua presença para organizarmos todos os detalhes desta noite inesquecível.</p>
+        <button class="btn" id="btn-rsvp">RSVP</button>
+    </section>
+
+    <footer>
+        <p><span>Powered by PEGASUS Framework</span>.</p>
+    </footer>
+
+    <!-- JS PRINCIPAL -->
+    <script src="js/main.js"></script>
+</body>
+</html>

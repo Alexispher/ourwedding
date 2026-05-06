@@ -1,0 +1,729 @@
+import os
+import webbrowser
+import customtkinter as ctk
+
+# Mod V3 (Saturn Engine) - OurWedding Zenith Edition (Anti-Crash Protocol)
+def run(nexus):
+    status = nexus.create_signal('status', 'Aguardando Lançamento')
+    rsvp_count = nexus.create_signal('rsvp_total', '0 Confirmações')
+    
+    nexus.add_title("OURWEDDING - COMMAND CENTER")
+    
+    stats_frame = ctk.CTkFrame(nexus._root, fg_color="#1e1f29", corner_radius=0)
+    stats_frame.pack(fill="x", padx=20, pady=10)
+    
+    nexus.add_reactive_label(status, font_size=14)
+    nexus.add_reactive_label(rsvp_count, font_size=18)
+
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ourwedding | Alex & Anny</title>
+        <style>
+            /* TEMA ESCURO (Padrão) */
+            :root {
+                --bg-color: #050505; --bg-gradient-end: #141414;
+                --section-alt-bg: #0a0a0a; --text-color: #f0f0f0;
+                --text-muted: #777777; --accent-silver: #c0c0c0;
+                --border-color: #222222; --dracula-purple: #bd93f9;
+                --arcade-bg: radial-gradient(circle, #0a0a0a 0%, #000 100%);
+            }
+
+            /* TEMA CLARO */
+            [data-theme="light"] {
+                --bg-color: #fcfcfc; --bg-gradient-end: #eaeaea;
+                --section-alt-bg: #f5f5f5; --text-color: #0a0a0a;
+                --text-muted: #444444; --accent-silver: #4a4a4a;
+                --border-color: #cccccc; --dracula-purple: #6272a4; 
+                --arcade-bg: radial-gradient(circle, #e0e0e0 0%, #c0c0c0 100%);
+            }
+
+            body {
+                margin: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                background-color: var(--bg-color); color: var(--text-color);
+                text-align: center; -webkit-font-smoothing: antialiased;
+                scroll-behavior: smooth; overflow-x: hidden;
+                transition: background-color 0.5s, color 0.5s;
+            }
+
+            h1, h2, h3 { font-family: 'Didot', 'Bodoni MT', 'Times New Roman', serif; font-weight: normal; letter-spacing: 3px; margin-bottom: 20px; transition: color 0.5s; }
+            header { padding: 40px 20px; border-bottom: 1px solid var(--border-color); text-transform: uppercase; transition: border-color 0.5s; }
+            header h2 { margin: 0; font-size: 1.2em; letter-spacing: 5px; color: var(--accent-silver); }
+            
+            .top-controls { position: fixed; top: 20px; width: 100%; display: flex; justify-content: space-between; pointer-events: none; z-index: 1000; }
+            .control-btn { pointer-events: auto; font-family: 'Consolas', monospace; font-size: 1em; color: var(--text-muted); cursor: pointer; letter-spacing: 2px; transition: all 0.3s; background: var(--bg-color); border: 1px solid var(--border-color); padding: 8px 15px; margin: 0 20px; border-radius: 4px; user-select: none; }
+            .control-btn:hover { color: var(--text-color); border-color: var(--accent-silver); }
+
+            .hero { height: 70vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(180deg, var(--bg-color) 0%, var(--bg-gradient-end) 100%); border-bottom: 1px solid var(--border-color); transition: background 0.5s, border-color 0.5s; }
+            .hero h1 { font-size: 4.5em; margin: 0; color: var(--text-color); }
+            .hero p { font-size: 0.9em; letter-spacing: 6px; color: var(--text-muted); text-transform: uppercase; margin-top: 20px; font-weight: bold; }
+            
+            .name-trigger { transition: color 0.4s, text-shadow 0.4s; cursor: pointer; }
+            .name-trigger:hover { color: var(--dracula-purple); text-shadow: 0 0 15px rgba(189, 147, 249, 0.4); }
+            .amp { color: var(--text-color); transition: color 0.3s; cursor: pointer; display: inline-block; }
+            .amp:hover { color: var(--dracula-purple); }
+
+            .verse-box { margin-top: 25px; font-size: 0.95em; letter-spacing: 2px; color: var(--accent-silver); font-style: italic; opacity: 0; transition: opacity 0.8s ease-in-out; max-width: 80%; height: 40px; font-family: 'Didot', serif; }
+
+            .countdown-container { padding: 40px; background: var(--section-alt-bg); border-bottom: 1px solid var(--border-color); font-family: 'Consolas', monospace; color: var(--accent-silver); letter-spacing: 2px; transition: background-color 0.5s, color 0.5s; }
+            .section { padding: 80px 20px; max-width: 700px; margin: 0 auto; }
+            .section p { font-size: 1.15em; line-height: 1.8; color: var(--text-muted); font-weight: 400; }
+            .alt-bg { background-color: var(--section-alt-bg); max-width: 100%; transition: background-color 0.5s; }
+            .details { margin-top: 50px; font-size: 1em; letter-spacing: 2px; color: var(--accent-silver); text-transform: uppercase; font-weight: bold; }
+            
+            .dress-code-box { margin-top: 40px; padding: 40px; border: 1px solid var(--border-color); background-color: var(--bg-color); text-align: left; transition: background-color 0.5s; }
+            .dress-code-box p { font-size: 1em; margin-bottom: 20px; }
+            .dress-code-box strong { color: var(--accent-silver); }
+            .warning-text { color: #ff5555 !important; font-weight: bold; font-size: 0.85em !important; margin-bottom: 0 !important; letter-spacing: 1px; text-transform: uppercase; }
+
+            .btn { display: inline-block; padding: 16px 45px; margin-top: 40px; background-color: transparent; border: 1px solid var(--accent-silver); color: var(--text-color); text-decoration: none; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85em; transition: all 0.4s ease; cursor: pointer; }
+            .btn:hover { background-color: var(--text-color); color: var(--bg-color); }
+
+            #arcade { display: none; height: 100vh; flex-direction: column; align-items: center; justify-content: center; background: var(--arcade-bg); border-top: 1px solid var(--border-color); transition: background 0.5s; }
+            .game-container { padding: 20px; border: 1px solid #222; background: #050505; box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); border-radius: 8px; }
+            canvas { border: 1px solid #333; background: #050505; }
+            .stats { font-family: 'Consolas', monospace; color: var(--dracula-purple); margin-bottom: 10px; font-weight: bold; }
+            
+            footer { padding: 50px; border-top: 1px solid var(--border-color); font-size: 0.7em; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; position: relative; }
+            
+            /* EASTER EGG: FUS RO DAH TRIGGER */
+            #powered-text { cursor: grab; user-select: none; display: inline-block; transition: color 0.3s; }
+            #powered-text:active { color: #ff5555; cursor: grabbing; text-shadow: 0 0 10px rgba(255,85,85,0.5); }
+
+            /* EASTER EGG: PEGASUS TERMINAL */
+            #peg-terminal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px; z-index: 10000; text-align: left; box-sizing: border-box; }
+            #peg-terminal p { margin: 5px 0; letter-spacing: 1px; text-transform: uppercase; font-size: 1.1em; }
+            
+            /* EASTER EGG: SAVE ROOM RE */
+            #save-notification { position: fixed; bottom: 30px; right: 30px; font-family: 'Times New Roman', serif; color: #fff; background: rgba(0,0,0,0.8); border: 1px solid #c0c0c0; padding: 10px 20px; opacity: 0; transition: opacity 0.5s; z-index: 9999; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8em; pointer-events: none; }
+            .save-trigger { cursor: pointer; transition: color 0.3s; }
+            .save-trigger:active { color: var(--text-color); }
+
+            /* EASTER EGG: XBOX ACHIEVEMENT Fiel */
+            #xbox-achievement { 
+                position: fixed; bottom: -120px; left: 50%; transform: translateX(-50%); 
+                background: #419b1c; color: white; display: flex; align-items: center; 
+                padding: 12px 25px 12px 12px; border-radius: 50px; 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                box-shadow: 0 6px 20px rgba(0,0,0,0.5); z-index: 10001; 
+                transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+                text-align: left; width: 420px; pointer-events: none;
+            }
+            .ach-icon-wrapper { background: #307513; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; margin-right: 15px; flex-shrink: 0; }
+            .ach-icon-wrapper svg { width: 28px; height: 28px; fill: white; }
+            .ach-title { font-size: 18px; display: flex; align-items: center; margin-bottom: 2px; }
+            .ach-desc { font-size: 15px; font-weight: 400; opacity: 0.95; }
+            .ach-g { background: white; color: #419b1c; border-radius: 50%; padding: 0px 4px; font-size: 12px; margin-right: 6px; font-weight: 900; letter-spacing: -1px; }
+            .ach-trigger { cursor: pointer; opacity: 0.05; transition: opacity 0.3s; font-size: 20px; }
+            .ach-trigger:hover { opacity: 1; }
+            
+            /* EASTER EGG: FLY SWATTER */
+            #fly-game-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 10005; background: rgba(0,0,0,0.6); cursor: none; overflow: hidden; }
+            .fly { position: absolute; font-size: 35px; user-select: none; transition: top 0.4s linear, left 0.4s linear; pointer-events: none; }
+            #swatter { position: absolute; font-size: 60px; pointer-events: none; transform-origin: bottom left; transition: transform 0.05s; z-index: 10006; }
+            #fly-score { position: absolute; top: 20px; left: 20px; font-family: 'Consolas', monospace; font-size: 30px; font-weight: bold; color: #ff5555; text-shadow: 2px 2px 0 #000; }
+            .close-fly { position: absolute; top: 20px; right: 30px; font-family: sans-serif; font-size: 40px; color: #fff; cursor: pointer; z-index: 10007; }
+            .close-fly:hover { color: #ff5555; }
+        </style>
+    </head>
+    <body>
+        <!-- MOTORES DE ÁUDIO (Agora com caminhos diretos - Anti Bloqueio de Navegador) -->
+        <audio id="bgMusic" src="UIFY.mp3" loop preload="auto"></audio>
+        <audio id="reAudio" src="RE.mp3" preload="auto"></audio>
+        <audio id="xbAudio" src="XB.mp3" preload="auto"></audio>
+        <audio id="fusAudio" src="FUS.mp3" preload="auto"></audio>
+        
+        <!-- ELEMENTOS DE EASTER EGGS -->
+        <div id="peg-terminal">
+            <p>> [PEGASUS SYSTEM] INICIANDO PROTOCOLOS DE UNIÃO...</p>
+            <p>> [SECURITY] TRAJE DA NOIVA: CONFIDENCIAL.</p>
+            <p>> [SYSTEM] CONEXÃO ESTABELECIDA. CARREGANDO PLAYER 2...</p>
+            <p>> [STATUS] MODO LOBO SOLITÁRIO DESATIVADO.</p>
+        </div>
+        <div id="save-notification">Progresso Salvo.</div>
+        
+        <div id="xbox-achievement">
+            <div class="ach-icon-wrapper">
+                <svg viewBox="0 0 24 24"><path d="M19,2H5C3.9,2,3,2.9,3,4v4c0,2.6,1.8,4.8,4.2,5.6C7.9,15.1,9.4,16,11,16v3H8v2h8v-2h-3v-3c1.6,0,3.1-0.9,3.8-2.4C19.2,12.8,21,10.6,21,8V4C21,2.9,20.1,2,19,2z M5,8V4h2v5.9C5.9,9.3,5,8.7,5,8z M19,8c0,0.7-0.9,1.3-2,1.9V4h2V8z"/></svg>
+            </div>
+            <div class="ach-text">
+                <div class="ach-title"><span class="ach-g">G</span> 100 - Master of Unlocking</div>
+                <div class="ach-desc">O Modo Lobo Solitário foi desativado. [25.2%]</div>
+            </div>
+        </div>
+
+        <!-- SITE PRINCIPAL -->
+        <div class="top-controls">
+            <div id="theme-toggle" class="control-btn" title="Alternar Modo Claro/Escuro">☀︎</div>
+            <div id="audio-control" class="control-btn" onclick="toggleAudio()">AUDIO: OFF</div>
+        </div>
+
+        <header><h2>ourwedding</h2></header>
+        
+        <section class="hero">
+            <h1>
+                <span class="name-trigger" onclick="showVerse('alex')">Alex</span> 
+                <span class="amp" onclick="revealArcade()">&</span> 
+                <span class="name-trigger" onclick="showVerse('anny')">Anny</span>
+            </h1>
+            <p>O Início de um Novo Capítulo</p>
+            <div id="verse-display" class="verse-box"></div>
+        </section>
+
+        <div class="countdown-container" id="timer">INICIANDO SINCRONIZAÇÃO DE TEMPO...</div>
+
+        <section class="section">
+            <h2><span class="save-trigger" onclick="triggerSaveRoom()">A Celebração</span></h2>
+            <p>Convidamos você para testemunhar e celebrar este momento único. Uma ocasião marcada pela essência e conexão, onde duas histórias se encontram para formar uma só.</p>
+            <div class="details"><p>Belo Horizonte, MG<br>Março de 2028</p></div>
+        </section>
+
+        <section class="section alt-bg">
+            <h2>Protocolo de Vestimenta</h2>
+            <p>Para mantermos a atmosfera e a estética idealizadas para esta noite, estabelecemos um <strong>Dress Code Rigoroso</strong>. O destaque desta noite pertence única e exclusivamente à noiva.</p>
+            
+            <div class="dress-code-box">
+                <p><strong>MULHERES:</strong> É estritamente proibido o uso de vestidos brancos, off-white, cores vibrantes ou estampas coloridas. Solicitamos o uso obrigatório de trajes em tons escuros (preto ou paletas fechadas).</p>
+                <p><strong>HOMENS:</strong> Traje social clássico e alinhado em tons escuros. Evitem quaisquer cores chamativas que quebrem a harmonia do ambiente e não tentem ofuscar o padrão da cerimônia.</p>
+                <p class="warning-text">Atenção: O não cumprimento destas diretrizes resultará na restrição imediata de acesso ao evento na portaria.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Confirmação</h2>
+            <p>Por favor, confirme sua presença para organizarmos todos os detalhes desta noite inesquecível.</p>
+            <button class="btn" onclick="confirmRSVP(this)">RSVP</button>
+        </section>
+
+        <section id="arcade">
+            <div class="stats">
+                <p>PEGASUS_ENGINE // TETRIS_CORE</p>
+                <p>RECORD: <span id="high-score">0</span> | SCORE: <span id="score">0</span></p>
+            </div>
+            <div class="game-container">
+                <canvas id="tetris" width="240" height="400"></canvas>
+            </div>
+            <p style="font-size: 0.7em; color: var(--text-muted); margin-top: 15px; font-family: monospace; font-weight: bold;">
+                SETAS: MOVER | CIMA: GIRAR | ESPAÇO: DERRUBAR RÁPIDO
+            </p>
+        </section>
+
+        <footer>
+            <p><span id="powered-text">Powered by PEGASUS Framework</span><span class="ach-trigger" onclick="triggerXboxAchievement()">.</span></p>
+        </footer>
+
+        <script>
+            // === PROTEÇÃO DE MEMÓRIA (ANTI-CRASH DE NAVEGADOR) ===
+            // Essa cápsula impede que o bloqueio de segurança do Chrome quebre todo o script
+            function getSavedData(key) {
+                try { return localStorage.getItem(key); } catch(e) { return null; }
+            }
+            function saveData(key, value) {
+                try { localStorage.setItem(key, value); } catch(e) { console.log("Memória bloqueada temporariamente."); }
+            }
+
+            // === TRAVA GLOBAL ===
+            let isSystemDestroyed = false; 
+
+            // === EASTER EGGS ENGINE ===
+            
+            // 1. FUS RO DAH 
+            const poweredText = document.getElementById('powered-text');
+            let fusTimer;
+            
+            ['mousedown', 'touchstart'].forEach(evt => {
+                poweredText.addEventListener(evt, () => {
+                    if(isSystemDestroyed) return;
+                    fusTimer = setTimeout(() => triggerFusRoDah(), 1500); 
+                });
+            });
+            
+            ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(evt => {
+                poweredText.addEventListener(evt, () => clearTimeout(fusTimer));
+            });
+
+            function triggerFusRoDah() {
+                isSystemDestroyed = true; 
+                
+                document.getElementById('fusAudio').play().catch(e=>{});
+                document.getElementById('arcade').style.display = 'none';
+
+                setTimeout(() => {
+                    const elements = document.querySelectorAll('section, header, .top-controls, .countdown-container, footer p');
+                    elements.forEach(el => {
+                        const randomX = (Math.random() - 0.5) * 4000;
+                        const randomY = (Math.random() - 0.5) * 4000;
+                        const randomRot = (Math.random() - 0.5) * 1080;
+                        
+                        el.style.transition = 'transform 2.5s cubic-bezier(0.1, 0.8, 0.2, 1), opacity 1.5s ease-in';
+                        el.style.transform = `translate(${randomX}px, ${randomY}px) rotate(${randomRot}deg)`;
+                        el.style.opacity = '0';
+                        el.style.pointerEvents = 'none';
+                    });
+                    document.body.style.overflow = 'hidden';
+                }, 1100); 
+            }
+
+            // 2. PEGASUS Terminal ("peg")
+            let pegStr = "";
+            let pegUsed = false;
+            window.addEventListener('keydown', e => {
+                if(isSystemDestroyed || pegUsed) return;
+                if(e.key.length === 1) pegStr += e.key.toLowerCase();
+                if(pegStr.endsWith('peg')) {
+                    pegUsed = true;
+                    const term = document.getElementById('peg-terminal');
+                    term.style.display = 'block';
+                    setTimeout(() => { term.style.opacity = 0; setTimeout(() => term.style.display = 'none', 1000); }, 4500);
+                }
+            });
+
+            // 3. Save Room (3 Clicks)
+            let saveClickCount = 0;
+            let saveTimer;
+            function triggerSaveRoom() {
+                if(isSystemDestroyed) return;
+                saveClickCount++;
+                clearTimeout(saveTimer);
+                if(saveClickCount >= 3) {
+                    saveClickCount = 0;
+                    document.getElementById('reAudio').play().catch(e=>{});
+                    const notif = document.getElementById('save-notification');
+                    notif.style.opacity = 1;
+                    setTimeout(() => notif.style.opacity = 0, 4000);
+                }
+                saveTimer = setTimeout(() => saveClickCount = 0, 1000);
+            }
+
+            // 4. Xbox Achievement 
+            let achTriggered = false;
+            function triggerXboxAchievement() {
+                if(isSystemDestroyed || achTriggered) return;
+                achTriggered = true;
+                document.getElementById('xbAudio').play().catch(e=>{});
+                const ach = document.getElementById('xbox-achievement');
+                ach.style.bottom = '40px'; 
+                setTimeout(() => ach.style.bottom = '-120px', 7000); 
+            }
+
+            // 5. Cascata Swan
+            const secretCode = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+            let secretIndex = 0;
+            document.addEventListener('keydown', function(e) {
+                if (isSystemDestroyed || document.getElementById('arcade').style.display === 'flex') return;
+                if (e.key === secretCode[secretIndex]) {
+                    secretIndex++;
+                    if (secretIndex === secretCode.length) {
+                        triggerSwanCascade();
+                        secretIndex = 0;
+                    }
+                } else {
+                    secretIndex = 0;
+                }
+            });
+
+            function triggerSwanCascade() {
+                const symbols = ['🩰', '🦢'];
+                for (let i = 0; i < 40; i++) {
+                    setTimeout(() => {
+                        const el = document.createElement('div');
+                        el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                        el.style.position = 'fixed'; el.style.top = '-50px';
+                        el.style.left = Math.random() * 100 + 'vw';
+                        el.style.fontSize = (Math.random() * 25 + 20) + 'px'; 
+                        el.style.zIndex = 9999; el.style.opacity = Math.random() * 0.7 + 0.3;
+                        el.style.pointerEvents = 'none';
+                        el.style.transition = 'transform 4s linear, top 4s linear';
+                        document.body.appendChild(el);
+                        el.getBoundingClientRect(); 
+                        el.style.top = '120vh';
+                        el.style.transform = `rotate(${Math.random() * 360}deg)`;
+                        setTimeout(() => el.remove(), 4000);
+                    }, i * 150);
+                }
+            }
+
+            // === FLY SWATTER MINIGAME ===
+            const themeBtn = document.getElementById('theme-toggle');
+            let themeClicks = 0;
+            let themeTimer;
+            
+            themeBtn.addEventListener('click', () => {
+                if(isSystemDestroyed) return;
+                
+                toggleTheme();
+                
+                themeClicks++;
+                clearTimeout(themeTimer);
+                if(themeClicks >= 6) {
+                    themeClicks = 0;
+                    startFlySwatter();
+                }
+                themeTimer = setTimeout(() => themeClicks = 0, 1500);
+            });
+
+            function startFlySwatter() {
+                if(document.getElementById('fly-game-container')) return;
+                
+                const container = document.createElement('div');
+                container.id = 'fly-game-container';
+                document.body.appendChild(container);
+                container.innerHTML = '<div id="fly-score">KILLS: 0</div><div class="close-fly" onclick="this.parentElement.remove(); document.body.style.cursor=\'auto\'">X</div>';
+                
+                let score = 0;
+                const scoreEl = document.getElementById('fly-score');
+                
+                const swatter = document.createElement('div');
+                swatter.id = 'swatter'; swatter.innerHTML = '🏏'; 
+                container.appendChild(swatter);
+                
+                container.addEventListener('mousemove', e => {
+                    swatter.style.left = (e.clientX - 10) + 'px';
+                    swatter.style.top = (e.clientY - 50) + 'px';
+                });
+                
+                container.addEventListener('mousedown', e => {
+                    swatter.style.transform = 'rotate(-50deg)';
+                    document.querySelectorAll('.fly').forEach(fly => {
+                        const rect = fly.getBoundingClientRect();
+                        if(e.clientX >= rect.left && e.clientX <= rect.right && 
+                           e.clientY >= rect.top && e.clientY <= rect.bottom) {
+                            fly.innerHTML = '💥';
+                            fly.classList.remove('fly');
+                            fly.style.pointerEvents = 'none';
+                            setTimeout(() => fly.remove(), 500);
+                            score++; scoreEl.innerText = 'KILLS: ' + score;
+                            setTimeout(() => spawnFly(container), 1500);
+                        }
+                    });
+                    setTimeout(() => swatter.style.transform = 'rotate(0deg)', 150);
+                });
+
+                for(let i=0; i<8; i++) spawnFly(container);
+            }
+
+            function spawnFly(container) {
+                if(!document.getElementById('fly-game-container')) return;
+                const fly = document.createElement('div');
+                fly.className = 'fly'; fly.innerHTML = '🪰';
+                fly.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+                fly.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+                container.appendChild(fly);
+
+                setInterval(() => {
+                    if(!fly.parentElement || !fly.classList.contains('fly')) return;
+                    let currentX = parseFloat(fly.style.left); let currentY = parseFloat(fly.style.top);
+                    fly.style.left = Math.max(0, Math.min(window.innerWidth - 40, currentX + (Math.random() - 0.5) * 300)) + 'px';
+                    fly.style.top = Math.max(0, Math.min(window.innerHeight - 40, currentY + (Math.random() - 0.5) * 300)) + 'px';
+                }, 400); 
+            }
+
+            // === CORE ENGINE ===
+            let verseTimeout;
+            function showVerse(person) {
+                if(isSystemDestroyed) return;
+                const box = document.getElementById('verse-display');
+                clearTimeout(verseTimeout);
+                if (person === 'anny') {
+                    box.innerHTML = '"Quem encontra uma esposa encontra algo excelente; recebeu uma bênção do Senhor."<br>— Provérbios 18:22';
+                } else if (person === 'alex') {
+                    box.innerHTML = '"Maridos, amem suas mulheres, assim como Cristo amou a igreja e entregou-se a si mesmo por ela."<br>— Efésios 5:25';
+                }
+                box.style.opacity = 1;
+                verseTimeout = setTimeout(() => { box.style.opacity = 0; }, 8000);
+            }
+
+            if (getSavedData('ourwedding_theme') === 'light') {
+                document.body.setAttribute('data-theme', 'light');
+                themeBtn.innerHTML = '☾';
+            }
+            
+            function toggleTheme() {
+                if (document.body.getAttribute('data-theme') === 'light') {
+                    document.body.removeAttribute('data-theme');
+                    saveData('ourwedding_theme', 'dark');
+                    themeBtn.innerHTML = '☀︎';
+                } else {
+                    document.body.setAttribute('data-theme', 'light');
+                    saveData('ourwedding_theme', 'light');
+                    themeBtn.innerHTML = '☾';
+                }
+            }
+
+            const bgMusic = document.getElementById('bgMusic');
+            bgMusic.volume = 0.15; 
+            let isMusicPlaying = false;
+            function toggleAudio() {
+                if(isSystemDestroyed) return;
+                if (isMusicPlaying) {
+                    bgMusic.pause();
+                    document.getElementById('audio-control').innerText = "AUDIO: OFF";
+                    document.getElementById('audio-control').style.color = "var(--text-muted)";
+                } else {
+                    bgMusic.play();
+                    document.getElementById('audio-control').innerText = "AUDIO: ON";
+                    document.getElementById('audio-control').style.color = "var(--dracula-purple)";
+                }
+                isMusicPlaying = !isMusicPlaying;
+            }
+
+            document.body.addEventListener('click', function(event) {
+                if (!isMusicPlaying && event.target.id !== 'theme-toggle' && !isSystemDestroyed) {
+                    bgMusic.play().then(() => {
+                        isMusicPlaying = true;
+                        document.getElementById('audio-control').innerText = "AUDIO: ON";
+                        document.getElementById('audio-control').style.color = "var(--dracula-purple)";
+                    }).catch(e => {});
+                }
+            }, { once: true });
+
+            function confirmRSVP(btn) {
+                if(isSystemDestroyed) return;
+                alert('RSVP Confirmado! Sinal interceptado pelo PEGASUS Command Center.');
+                btn.innerHTML = 'CONFIRMADO';
+                btn.style.backgroundColor = 'var(--text-color)';
+                btn.style.color = 'var(--bg-color)';
+            }
+
+            const weddingDate = new Date("March 23, 2028 19:00:00").getTime();
+            function updateTimer() {
+                const now = new Date().getTime();
+                const diff = weddingDate - now;
+                if (diff < 0) {
+                    document.getElementById("timer").innerHTML = "A MISSÃO FOI CONCLUÍDA.";
+                    return;
+                }
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("timer").innerHTML = days + " DIAS | " + hours + " HORAS | " + mins + " MINUTOS RESTANTES";
+            }
+            updateTimer(); 
+            setInterval(updateTimer, 1000);
+
+            // === TETRIS ARCADE ===
+            let gameStarted = false;
+            function revealArcade() {
+                if(isSystemDestroyed) return;
+                const arc = document.getElementById('arcade');
+                arc.style.display = 'flex';
+                window.scrollTo({ top: arc.offsetTop, behavior: 'smooth' });
+                if (!gameStarted) startTetris();
+            }
+
+            const canvas = document.getElementById('tetris');
+            const context = canvas.getContext('2d');
+            context.scale(20, 20);
+            const COLORS = [ null, '#8be9fd', '#ff79c6', '#ffb86c', '#f1fa8c', '#50fa7b', '#bd93f9', '#ff5555' ];
+
+            function createPiece(type) {
+                if (type === 'I') return [[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]];
+                if (type === 'L') return [[0,2,0],[0,2,0],[0,2,2]];
+                if (type === 'J') return [[0,3,0],[0,3,0],[3,3,0]];
+                if (type === 'O') return [[4,4],[4,4]];
+                if (type === 'Z') return [[5,5,0],[0,5,5],[0,0,0]];
+                if (type === 'S') return [[0,6,6],[6,6,0],[0,0,0]];
+                if (type === 'T') return [[0,7,0],[7,7,7],[0,0,0]];
+            }
+
+            function draw() {
+                context.fillStyle = '#050505'; 
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                drawMatrix(arena, {x: 0, y: 0});
+                drawMatrix(player.matrix, player.pos);
+            }
+
+            function drawMatrix(matrix, offset) {
+                matrix.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value !== 0) {
+                            context.fillStyle = COLORS[value];
+                            context.fillRect(x + offset.x, y + offset.y, 1, 1);
+                            context.strokeStyle = '#000';
+                            context.lineWidth = 0.05;
+                            context.strokeRect(x + offset.x, y + offset.y, 1, 1);
+                        }
+                    });
+                });
+            }
+
+            function arenaSweep() {
+                let rowCount = 1;
+                outer: for (let y = arena.length - 1; y > 0; --y) {
+                    for (let x = 0; x < arena[y].length; ++x) {
+                        if (arena[y][x] === 0) continue outer;
+                    }
+                    const row = arena.splice(y, 1)[0].fill(0);
+                    arena.unshift(row);
+                    ++y;
+                    player.score += rowCount * 10;
+                    rowCount *= 2;
+                }
+                updateScore();
+            }
+
+            function collide(arena, player) {
+                const [m, o] = [player.matrix, player.pos];
+                for (let y = 0; y < m.length; ++y) {
+                    for (let x = 0; x < m[y].length; ++x) {
+                        if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) return true;
+                    }
+                }
+                return false;
+            }
+
+            function merge(arena, player) {
+                player.matrix.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value !== 0) arena[y + player.pos.y][x + player.pos.x] = value;
+                    });
+                });
+            }
+
+            function rotate(matrix, dir) {
+                for (let y = 0; y < matrix.length; ++y) {
+                    for (let x = 0; x < y; ++x) {
+                        [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
+                    }
+                }
+                if (dir > 0) matrix.forEach(row => row.reverse());
+                else matrix.reverse();
+            }
+
+            function playerDrop() {
+                player.pos.y++;
+                if (collide(arena, player)) {
+                    player.pos.y--;
+                    merge(arena, player);
+                    playerReset();
+                    arenaSweep();
+                }
+                dropCounter = 0;
+            }
+
+            function playerMove(dir) {
+                player.pos.x += dir;
+                if (collide(arena, player)) player.pos.x -= dir;
+            }
+
+            function playerReset() {
+                const pieces = 'ILJOTSZ';
+                player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+                player.pos.y = 0;
+                player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
+                if (collide(arena, player)) {
+                    arena.forEach(row => row.fill(0));
+                    if (player.score > highScore) {
+                        highScore = player.score;
+                        saveData('pegasusTetrisRecord', highScore);
+                    }
+                    player.score = 0;
+                    updateScore();
+                }
+            }
+
+            function playerRotate(dir) {
+                const pos = player.pos.x;
+                let offset = 1;
+                rotate(player.matrix, dir);
+                while (collide(arena, player)) {
+                    player.pos.x += offset;
+                    offset = -(offset + (offset > 0 ? 1 : -1));
+                    if (offset > player.matrix[0].length) {
+                        rotate(player.matrix, -dir);
+                        player.pos.x = pos;
+                        return;
+                    }
+                }
+            }
+
+            let dropCounter = 0;
+            let dropInterval = 1000;
+            let lastTime = 0;
+            let highScore = parseInt(getSavedData('pegasusTetrisRecord')) || 0;
+
+            function update(time = 0) {
+                if(isSystemDestroyed) return;
+                const deltaTime = time - lastTime;
+                lastTime = time;
+                dropCounter += deltaTime;
+                if (dropCounter > dropInterval) playerDrop();
+                draw();
+                requestAnimationFrame(update);
+            }
+
+            function updateScore() {
+                document.getElementById('score').innerText = player.score;
+                document.getElementById('high-score').innerText = highScore;
+            }
+
+            const arena = [];
+            let rows = 20;
+            while (rows--) arena.push(new Array(12).fill(0));
+            const player = { pos: {x: 0, y: 0}, matrix: null, score: 0 };
+
+            window.addEventListener("keydown", function(e) {
+                if(isSystemDestroyed) return;
+                if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+                    if (document.getElementById('arcade').style.display === 'flex') {
+                        e.preventDefault();
+                    }
+                }
+            }, false);
+
+            document.addEventListener('keydown', event => {
+                if (isSystemDestroyed || document.getElementById('arcade').style.display !== 'flex') return;
+                if (event.keyCode === 37) playerMove(-1);
+                else if (event.keyCode === 39) playerMove(1);
+                else if (event.keyCode === 40) playerDrop();
+                else if (event.keyCode === 38) playerRotate(1);
+                else if (event.keyCode === 32) { 
+                    while(!collide(arena, player)) player.pos.y++; 
+                    player.pos.y--; 
+                    playerDrop(); 
+                }
+            });
+
+            function startTetris() {
+                gameStarted = true;
+                playerReset();
+                updateScore();
+                update();
+            }
+        </script>
+    </body>
+    </html>
+    """
+
+    # 4. LÓGICA DE LANÇAMENTO CIRÚRGICA (FATOR CORS)
+    def deploy_website():
+        status.set("LANÇADO NO NAVEGADOR")
+        rsvp_count.set("1 Confirmação (SISTEMA ONLINE)") 
+        
+        # O SEGREDO: Salvar o site DIRETAMENTE na pasta C:\Pegasus\batman
+        project_dir = r"C:\Pegasus\batman"
+        os.makedirs(project_dir, exist_ok=True)
+        file_path = os.path.join(project_dir, "preview_ourwedding.html")
+        
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        
+        webbrowser.open('file://' + os.path.realpath(file_path))
+
+    btn_deploy = ctk.CTkButton(
+        nexus._root, 
+        text="LANÇAR SITE E ATIVAR MOTOR", 
+        fg_color="#f8f8f2",
+        text_color="#050505",
+        hover_color="#c0c0c0",
+        font=("Consolas", 14, "bold"),
+        corner_radius=0,
+        height=50,
+        command=deploy_website
+    )
+    btn_deploy.pack(pady=30, padx=40, fill="x")
+
+    return True

@@ -1,0 +1,64 @@
+/* css/tetris.css */
+#arcade { 
+    display: none; 
+    min-height: 100vh; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    background: var(--arcade-bg); 
+    border-top: 1px solid var(--border-color); 
+    transition: background 0.5s; 
+    padding: 20px 0; 
+}
+.game-container { 
+    padding: 15px; 
+    border: 1px solid #222; 
+    background: #050505; 
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); 
+    border-radius: 8px; 
+}
+canvas { 
+    border: 1px solid #333; 
+    background: #050505; 
+    max-width: 100%; 
+    height: auto; 
+}
+.stats { 
+    font-family: 'Consolas', monospace; 
+    color: var(--dracula-purple); 
+    margin-bottom: 10px; 
+    font-weight: bold; 
+    text-align: center; 
+}
+#mobile-controls { 
+    display: none; 
+    flex-direction: column; 
+    gap: 10px; 
+    margin-top: 20px; 
+    width: 100%; 
+    max-width: 300px; 
+}
+.m-row { display: flex; justify-content: center; gap: 15px; }
+.m-btn { 
+    padding: 15px; 
+    background: #111; 
+    color: var(--dracula-purple); 
+    border: 1px solid #333; 
+    border-radius: 5px; 
+    font-size: 1.5em; 
+    width: 60px; 
+    height: 60px; 
+    user-select: none; 
+    transition: background 0.2s; 
+}
+.m-btn:active { background: #333; }
+.m-btn-large { 
+    width: auto; 
+    flex-grow: 1; 
+    font-size: 1.2em; 
+    font-family: 'Consolas', monospace; 
+}
+
+@media (max-width: 768px) {
+    #mobile-controls { display: flex; }
+}
