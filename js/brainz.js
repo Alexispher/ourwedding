@@ -184,22 +184,41 @@ window.startBrainz = function() {
         zombies.push(zObj); container.appendChild(el);
     }
 
+    // --- CORREÇÃO DE LÓGICA DO ATAQUE E MORTE DOS ZUMBIS ---
     function gameLoop() {
         if(gameState !== 'playing') return;
-        zombies.forEach((z, index) => {
+        
+        // Laço reverso para permitir a remoção segura do zumbi de munição se necessário
+        for (let i = zombies.length - 1; i >= 0; i--) {
+            let z = zombies[i];
             z.progress += z.speed;
+            
             if(z.type === '8' && Math.random() < 0.02) {
                  z.targetXOffset += (Math.random() > 0.5 ? 25 : -25);
                  z.targetXOffset = Math.max(-40, Math.min(40, z.targetXOffset));
             }
+            
             let currentScale = z.data.scaleStart + (z.progress * 2.0); 
             let currentBottom = 45 - (z.progress * 45); 
             let currentLeft = 50 + (z.targetXOffset * z.progress); 
+            
             z.el.style.transform = `translateX(-50%) scale(${currentScale})`;
             z.el.style.left = currentLeft + '%'; z.el.style.bottom = currentBottom + '%';
             z.el.style.zIndex = Math.floor(z.progress * 100) + 40010;
-            if(z.progress >= 1.0) { takeDamage(z.baseDmg, z.type); z.el.remove(); zombies.splice(index, 1); }
-        });
+            
+            // O ZUMBI CHEGOU NO JOGADOR
+            if(z.progress >= 1.0) { 
+                if(z.type === '9') {
+                    // O zumbi raro (munição) apenas foge sem causar dano se você não atirar
+                    z.el.remove();
+                    zombies.splice(i, 1);
+                } else {
+                    // Zumbis normais e Bosses CAUSAM DANO, RECUA, e CONTINUAM VIVOS!
+                    takeDamage(z.baseDmg, z.type); 
+                    z.progress = 0.7; // Efeito de recuo para morder novamente!
+                }
+            }
+        }
         requestAnimationFrame(gameLoop);
     }
 
