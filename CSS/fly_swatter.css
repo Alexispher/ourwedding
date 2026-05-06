@@ -1,0 +1,87 @@
+/* =========================================================================
+   PEGASUS_ENGINE // FLY_SWATTER (CSS)
+   ========================================================================= */
+
+#fly-game-container { 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100vw; height: 100vh; 
+    z-index: 10005; 
+    background: rgba(0,0,0,0.7); 
+    cursor: none; 
+    overflow: hidden; 
+    transition: background-color 0.1s; 
+}
+
+.fly { 
+    position: absolute; 
+    width: 40px; height: 40px; 
+    user-select: none; 
+    transition: top 0.4s linear, left 0.4s linear; 
+    pointer-events: none; 
+    display: flex; justify-content: center; align-items: center; 
+}
+
+.boss-fly { 
+    position: absolute; 
+    width: 120px; height: 120px; 
+    user-select: none; 
+    transition: top 0.8s ease-in-out, left 0.8s ease-in-out; 
+    pointer-events: none; 
+    image-rendering: pixelated; 
+    filter: drop-shadow(0 0 10px rgba(255,0,0,0.5)); 
+    transform: translate(-50%, -50%); 
+}
+
+#swatter { 
+    position: absolute; 
+    pointer-events: none; 
+    transform-origin: bottom left; 
+    transition: transform 0.05s; 
+    z-index: 10006; 
+    display: flex; flex-direction: column; align-items: center; width: 60px; 
+}
+
+.swatter-head { 
+    width: 45px; height: 55px; 
+    border: 3px solid #1e90ff; 
+    border-radius: 8px; 
+    background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px), 
+                repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(30,144,255,0.4) 4px, rgba(30,144,255,0.4) 6px); 
+}
+
+.swatter-handle { width: 6px; height: 30px; background: #888; }
+.swatter-glove { font-size: 35px; margin-top: -15px; }
+
+#fly-score { 
+    position: absolute; 
+    top: 20px; left: 20px; 
+    font-family: 'Consolas', monospace; 
+    font-size: 24px; font-weight: bold; 
+    color: #50fa7b; 
+    text-shadow: 2px 2px 0 #000; 
+    z-index: 10007; 
+}
+
+.close-fly { 
+    position: absolute; 
+    top: 20px; right: 30px; 
+    font-family: sans-serif; font-size: 35px; 
+    color: #fff; cursor: pointer; 
+    z-index: 10007; 
+}
+.close-fly:hover { color: #ff5555; }
+
+@keyframes bossHit { 
+    0% { transform: translate(-50%, -50%); } 
+    25% { transform: translate(calc(-50% - 5px), calc(-50% + 5px)); } 
+    50% { transform: translate(calc(-50% + 5px), calc(-50% - 5px)); } 
+    75% { transform: translate(calc(-50% - 5px), calc(-50% - 5px)); } 
+    100% { transform: translate(calc(-50% + 5px), calc(-50% + 5px)); } 
+}
+
+@keyframes bossFloat { 
+    0% { margin-top: 0px; } 
+    50% { margin-top: -20px; } 
+    100% { margin-top: 0px; } 
+}

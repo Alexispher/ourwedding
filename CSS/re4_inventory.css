@@ -1,0 +1,66 @@
+/* =========================================================================
+   PEGASUS_ENGINE // ATTACHE_CASE_CORE (CSS)
+   ========================================================================= */
+
+#attache-case-overlay {
+    backdrop-filter: blur(5px);
+}
+
+/* Forçando o espaço a ser CURTO (10 colunas x 7 linhas = 400x280) */
+#attache-case-grid {
+    width: 400px !important;
+    height: 280px !important;
+    background-color: #0a0a0a;
+    background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px);
+    background-size: 40px 40px;
+    border: 3px solid #555;
+    box-shadow: inset 0 0 50px #000, 0 0 30px rgba(0,0,0,0.9);
+    touch-action: none;
+    position: relative;
+}
+
+.re4-item {
+    position: absolute;
+    cursor: grab;
+    filter: drop-shadow(3px 3px 4px rgba(0,0,0,0.9));
+    user-select: none;
+    -webkit-user-drag: none;
+    transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transform-origin: top left;
+    z-index: 10;
+}
+
+.re4-item:active {
+    cursor: grabbing;
+    filter: drop-shadow(8px 8px 15px rgba(0,0,0,1)) brightness(1.3);
+    z-index: 1000 !important;
+}
+
+/* ZONA DE DESCARTE (LIXEIRA) */
+#re4-trash {
+    margin-top: 30px;
+    width: 400px;
+    padding: 15px 0;
+    background: rgba(255, 85, 85, 0.1);
+    border: 2px dashed #ff5555;
+    color: #ff5555;
+    font-family: 'Consolas', monospace;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-align: center;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+#re4-trash.drag-over {
+    background: rgba(255, 85, 85, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 85, 85, 0.5);
+}
+
+@media (max-width: 768px) {
+    #attache-case-grid, #re4-trash {
+        transform: scale(0.8);
+        transform-origin: center;
+    }
+}

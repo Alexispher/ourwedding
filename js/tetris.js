@@ -1,4 +1,7 @@
-// js/tetris.js
+// =========================================================================
+// PEGASUS_ENGINE // TETRIS_CORE
+// Cartucho Modular - js/tetris.js
+// =========================================================================
 
 const canvas = document.getElementById('tetris'); 
 const context = canvas.getContext('2d'); 
@@ -79,7 +82,8 @@ function rotateMatrix(matrix, dir) {
     else matrix.reverse(); 
 }
 
-function playerDrop() { 
+// Funções globais para os botões mobile (no index.html) encontrarem
+window.playerDrop = function() { 
     player.pos.y++; 
     if (collide(arena, player)) { 
         player.pos.y--; 
@@ -90,13 +94,13 @@ function playerDrop() {
     dropCounter = 0; 
 }
 
-function fastDrop() { 
+window.fastDrop = function() { 
     while(!collide(arena, player)) player.pos.y++; 
     player.pos.y--; 
-    playerDrop(); 
+    window.playerDrop(); 
 }
 
-function playerMove(dir) { 
+window.playerMove = function(dir) { 
     player.pos.x += dir; 
     if (collide(arena, player)) player.pos.x -= dir; 
 }
@@ -110,14 +114,15 @@ function playerReset() {
         arena.forEach(row => row.fill(0)); 
         if (player.score > highScore) { 
             highScore = player.score; 
-            saveData('pegasusTetrisRecord', highScore); // Certifique-se de que saveData está no main.js
+            // Usa o saveData que já está rodando no main.js
+            if(typeof saveData === 'function') saveData('pegasusTetrisRecord', highScore); 
         } 
         player.score = 0; 
         updateScore(); 
     } 
 }
 
-function playerRotate(dir) { 
+window.playerRotate = function(dir) { 
     const pos = player.pos.x; 
     let offset = 1; 
     rotateMatrix(player.matrix, dir); 
@@ -135,14 +140,14 @@ function playerRotate(dir) {
 let dropCounter = 0; 
 let dropInterval = 1000; 
 let lastTime = 0; 
-let highScore = parseInt(getSavedData('pegasusTetrisRecord')) || 0;
+let highScore = (typeof getSavedData === 'function') ? (parseInt(getSavedData('pegasusTetrisRecord')) || 0) : 0;
 
 function update(time = 0) { 
     if(typeof isSystemDestroyed !== 'undefined' && isSystemDestroyed) return; 
     const deltaTime = time - lastTime; 
     lastTime = time; 
     dropCounter += deltaTime; 
-    if (dropCounter > dropInterval) playerDrop(); 
+    if (dropCounter > dropInterval) window.playerDrop(); 
     draw(); 
     requestAnimationFrame(update); 
 }
@@ -157,6 +162,7 @@ let rows = 20;
 while (rows--) arena.push(new Array(12).fill(0));
 const player = { pos: {x: 0, y: 0}, matrix: null, score: 0 };
 
+// Impede que as setas rolem a página quando o Arcade estiver aberto
 window.addEventListener("keydown", function(e) { 
     if(typeof isSystemDestroyed !== 'undefined' && isSystemDestroyed) return; 
     if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) { 
@@ -164,17 +170,21 @@ window.addEventListener("keydown", function(e) {
     } 
 }, false);
 
+// Controles do teclado
 document.addEventListener('keydown', event => { 
     if (typeof isSystemDestroyed !== 'undefined' && isSystemDestroyed) return;
     if (document.getElementById('arcade').style.display !== 'flex') return; 
-    if (event.keyCode === 37) playerMove(-1); 
-    else if (event.keyCode === 39) playerMove(1); 
-    else if (event.keyCode === 40) playerDrop(); 
-    else if (event.keyCode === 38) playerRotate(1); 
-    else if (event.keyCode === 32) fastDrop(); 
+    
+    if (event.keyCode === 37) window.playerMove(-1); 
+    else if (event.keyCode === 39) window.playerMove(1); 
+    else if (event.keyCode === 40) window.playerDrop(); 
+    else if (event.keyCode === 38) window.playerRotate(1); 
+    else if (event.keyCode === 32) window.fastDrop(); 
 });
 
+// A função mágica que o main.js chama quando você clica no "&"
 window.startTetris = function() { 
+    console.log("> [TETRIS_CORE] Injetado com sucesso.");
     playerReset(); 
     updateScore(); 
     update(); 

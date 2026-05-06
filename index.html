@@ -6,69 +6,192 @@
     <title>ourwedding | Alex & Anny</title>
     <!-- CSS PRINCIPAL -->
     <link rel="stylesheet" href="CSS/style.css">
+    
+    <style>
+        /* =========================================================
+           ANIMAÇÃO XBOX ONE (10 SEGUNDOS EXATOS)
+           ========================================================= */
+        #xbox-achievement {
+            position: fixed; bottom: -150px; left: 50%; transform: translateX(-50%);
+            background: #107C10; color: white; display: flex; align-items: center;
+            padding: 10px; border-radius: 60px; font-family: 'Segoe UI', Segoe, Tahoma, sans-serif;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5); z-index: 10001; width: 400px; height: 75px;
+            pointer-events: none; transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-sizing: border-box; overflow: hidden;
+        }
+        
+        #xbox-achievement.show { bottom: 40px !important; }
+
+        /* Contêiner 3D do Ícone */
+        .ach-icon-container { width: 55px; height: 55px; perspective: 1000px; flex-shrink: 0; margin-right: 15px; margin-left: 5px; }
+        
+        .ach-icon-inner {
+            width: 100%; height: 100%; position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+        
+        /* O Giro 3D */
+        #xbox-achievement.expanded .ach-icon-inner { transform: rotateX(-180deg); }
+
+        .ach-icon-front, .ach-icon-back {
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+            backface-visibility: hidden; border-radius: 50%; overflow: hidden;
+            display: flex; justify-content: center; align-items: center;
+        }
+        
+        /* Lado A: Troféu Branco */
+        .ach-icon-front { background: #0b5c0b; box-shadow: inset 0 0 10px rgba(0,0,0,0.3); }
+        
+        /* Lado B: Imagem Elden Ring */
+        .ach-icon-back { background: #000; transform: rotateX(180deg); }
+
+        /* Textos com Slide UP */
+        .ach-text-container { flex: 1; position: relative; height: 100%; overflow: hidden; display: flex; align-items: center; }
+        
+        .ach-text-step1, .ach-text-step2 {
+            position: absolute; left: 0; width: 100%;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1), opacity 0.6s;
+        }
+        
+        /* Lado A: Texto Inicial */
+        .ach-text-step1 { font-size: 21px; font-weight: 400; transform: translateY(0); opacity: 1; }
+        
+        /* Lado B: Detalhes da Conquista */
+        .ach-text-step2 { transform: translateY(100%); opacity: 0; display: flex; flex-direction: column; justify-content: center; height: 100%; }
+        
+        /* Transição dos Textos */
+        #xbox-achievement.expanded .ach-text-step1 { transform: translateY(-100%); opacity: 0; }
+        #xbox-achievement.expanded .ach-text-step2 { transform: translateY(0); opacity: 1; }
+    </style>
 </head>
 <body>
-    <!-- BOOT LOADER -->
-    <div id="boot-loader">
-        <div id="boot-text"></div><span class="cursor-blink">_</span>
+    <!-- ÁUDIOS -->
+    <audio id="bgMusic" src="assets/audios/UIFY.mp3" loop preload="auto"></audio>
+    <audio id="reAudio" src="assets/audios/RE.mp3" preload="auto"></audio>
+    <audio id="xbAudio" src="assets/audios/XB.mp3" preload="auto"></audio>
+    <audio id="fusAudio" src="assets/audios/FUS.mp3" preload="auto"></audio>
+    <audio id="legoAudio" src="assets/audios/LEGO.mp3" preload="auto"></audio>
+    
+    <!-- OVERLAYS EASTER EGGS -->
+    <img id="lego-overlay" src="assets/img/lego.gif" alt="Reconstruindo..." style="display:none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 150px; height: auto; z-index: 10008; pointer-events: none; filter: drop-shadow(0 0 15px rgba(0,0,0,0.5));" />
+
+    <div id="peg-terminal" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(5, 5, 5, 0.95); color: #50fa7b; font-family: 'Consolas', monospace; padding: 60px 20px; z-index: 10000; text-align: left; box-sizing: border-box; transition: opacity 0.5s;">
+        <p>> [PEGASUS SYSTEM] INICIANDO PROTOCOLOS DE UNIÃO...</p>
+        <p>> [SECURITY] TRAJE DA NOIVA: CONFIDENCIAL.</p>
+        <p>> [SYSTEM] CONEXÃO ESTABELECIDA. CARREGANDO PLAYER 2...</p>
+        <p>> [STATUS] SINCRONIZAÇÃO COMPLETA.</p>
+    </div>
+    
+    <div id="save-notification" style="position: fixed; bottom: 30px; right: 30px; font-family: 'Times New Roman', serif; color: #fff; background: rgba(0,0,0,0.8); border: 1px solid #c0c0c0; padding: 10px 20px; opacity: 0; transition: opacity 0.5s; z-index: 9999; text-transform: uppercase; letter-spacing: 3px; font-size: 0.8em; pointer-events: none;">Progresso Salvo.</div>
+    
+    <!-- XBOX ACHIEVEMENT 100% IDENTICO AO GIF -->
+    <div id="xbox-achievement">
+        <div class="ach-icon-container">
+            <div class="ach-icon-inner">
+                <!-- FASE 1: Troféu Branco -->
+                <div class="ach-icon-front">
+                    <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; fill: white;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0011 15.9V19H7v2h10v-2h-4v-3.1a5.01 5.01 0 003.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM7 10.82C5.84 10.4 5 9.3 5 8V7h2v3.82zM19 8c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+                </div>
+                <!-- FASE 2: Imagem do Jogo (Elden Ring) -->
+                <div class="ach-icon-back">
+                    <img src="assets/img/elden_ring_trophy.png" alt="Elden Ring" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+        
+        <div class="ach-text-container">
+            <!-- FASE 1: Texto Inicial -->
+            <div class="ach-text-step1">Achievement unlocked</div>
+            <!-- FASE 2: Detalhes da Conquista -->
+            <div class="ach-text-step2">
+                <div style="font-size: 16px; font-weight: 700; display: flex; align-items: center; margin-bottom: 1px;">
+                    Elden Ring
+                </div>
+                <div style="font-size: 14px; font-weight: 400; opacity: 0.9; display: flex; align-items: center;">
+                    <span style="font-weight: 900; margin-right: 5px; font-size: 13px; display: flex; align-items: center;">1000<span style="border: 1px solid white; border-radius: 50%; width: 12px; height: 12px; display: inline-flex; justify-content: center; align-items: center; font-size: 9px; margin-left: 1px;">G</span></span> - Obtained all trophies
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- ÁUDIO PRINCIPAL -->
-    <audio id="bgMusic" src="assets/audio/UIFY.mp3" loop preload="auto"></audio>
+    <!-- OVERLAY DA MALETA TÁTICA -->
+    <div id="attache-case-overlay" style="display:none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(5, 5, 5, 0.95); z-index: 30000; justify-content: center; align-items: center; flex-direction: column;">
+        <div class="close-case" onclick="closeAttacheCase()" style="position: absolute; top: 20px; right: 30px; color: var(--accent-silver); font-family: 'Consolas', monospace; font-size: 1.2em; cursor: pointer; z-index: 30001; letter-spacing: 2px;">FECHAR [X]</div>
+        <div id="attache-case-grid" style="position: relative; width: 400px; height: 280px; background-color: #0a0a0a; border: 2px solid #555;"></div>
+    </div>
 
     <!-- CONTROLES DO TOPO -->
     <div class="top-controls">
         <div id="theme-toggle" class="control-btn" title="Alternar Modo Claro/Escuro">☀︎</div>
-        <div id="audio-control" class="control-btn">AUDIO: OFF</div>
+        <div id="audio-control" class="control-btn" style="cursor: pointer;">AUDIO: OFF</div>
     </div>
 
     <header><h2>ourwedding</h2></header>
     
-    <!-- HERO SECTION (Nomes) -->
     <section class="hero">
         <h1>
             <span class="name-trigger" onclick="showVerse('alex')">Alex</span> 
-            <span class="amp">&</span> 
+            <span class="amp" onclick="revealArcade()">&</span> 
             <span class="name-trigger" onclick="showVerse('anny')">Anny</span>
         </h1>
         <p>O Início de um Novo Capítulo</p>
         <div id="verse-display" class="verse-box"></div>
     </section>
 
-    <!-- TIMER -->
     <div class="countdown-container" id="timer">INICIANDO SINCRONIZAÇÃO DE TEMPO...</div>
 
-    <!-- INFORMAÇÕES -->
     <section class="section">
-        <h2>A Celebração</h2>
+        <h2><span class="save-trigger" style="cursor: pointer;" onclick="triggerSaveRoom()">A Celebração</span></h2>
         <p>Convidamos você para testemunhar e celebrar este momento único. Uma ocasião marcada pela essência e conexão, onde duas histórias se encontram para formar uma só.</p>
         <div class="details"><p>Belo Horizonte, MG<br>Março de 2028</p></div>
     </section>
 
-    <!-- DRESS CODE TÁTICO/NOIR -->
     <section class="section alt-bg">
         <h2>Protocolo de Vestimenta</h2>
-        <p>Para preservar a estética e a identidade cuidadosamente concebidas para esta celebração, o cumprimento integral do dress code é <strong>condição obrigatória</strong> para participação no evento. O destaque desta noite pertence única e exclusivamente à noiva.</p>
-        
+        <p>Para preservar a estética e a identidade cuidadosamente concebidas para esta celebração, o cumprimento integral do dress code é <strong>condição obrigatória</strong> para participação no evento.</p>
         <div class="dress-code-box">
-            <p><strong>MULHERES:</strong> Não será permitido o uso de branco, off-white, cores vibrantes ou estampas chamativas. Solicita-se a utilização de trajes em tons escuros ou paletas fechadas.</p>
-            <p><strong>HOMENS:</strong> Traje social clássico em tons escuros, alinhado à proposta estética da cerimônia.</p>
-            <p class="warning-text">Atenção: Convidados que optarem por não seguir estas diretrizes, por livre escolha, compreendem que não participarão do evento.</p>
+            <p><strong>MULHERES:</strong> Não será permitido o uso de branco ou cores vibrantes. Tons escuros são solicitados.</p>
+            <p><strong>HOMENS:</strong> Traje social clássico em tons escuros.</p>
+            <p class="warning-text">Atenção: O não cumprimento impede a participação no evento.</p>
         </div>
     </section>
 
-    <!-- RSVP -->
     <section class="section">
         <h2>Confirmação</h2>
-        <p>Por favor, confirme sua presença para organizarmos todos os detalhes desta noite inesquecível.</p>
+        <p>Por favor, confirme sua presença.</p>
         <button class="btn" id="btn-rsvp">RSVP</button>
     </section>
 
+    <!-- ARCADE / TETRIS CORE -->
+    <section id="arcade" style="display: none; min-height: 100vh; flex-direction: column; align-items: center; justify-content: center; background: var(--arcade-bg);">
+        <div class="stats" style="font-family: 'Consolas', monospace; color: var(--dracula-purple); margin-bottom: 10px; font-weight: bold; text-align: center;">
+            <p>PEGASUS_ENGINE // TETRIS_CORE</p>
+            <p>RECORD: <span id="high-score">0</span> | SCORE: <span id="score">0</span></p>
+        </div>
+        <div class="game-container" style="padding: 15px; border: 1px solid #222; background: #050505; box-shadow: 0 0 30px rgba(0, 0, 0, 0.5); border-radius: 8px;">
+            <canvas id="tetris" width="240" height="400" style="border: 1px solid #333; background: #050505; max-width: 100%; height: auto;"></canvas>
+        </div>
+        <p style="font-size: 0.7em; color: var(--text-muted); margin-top: 15px; font-family: monospace; font-weight: bold; padding: 0 20px;">
+            PC: SETAS MOVER | CIMA GIRAR | ESPAÇO DERRUBAR
+        </p>
+        <div id="mobile-controls" style="display: none; flex-direction: column; gap: 10px; margin-top: 20px; width: 100%; max-width: 300px;">
+            <div class="m-row" style="display: flex; justify-content: center; gap: 15px;"><button class="m-btn" onclick="playerRotate(1)">↻</button></div>
+            <div class="m-row" style="display: flex; justify-content: center; gap: 15px;">
+                <button class="m-btn" onclick="playerMove(-1)">←</button>
+                <button class="m-btn" onclick="playerDrop()">↓</button>
+                <button class="m-btn" onclick="playerMove(1)">→</button>
+            </div>
+            <div class="m-row" style="display: flex; justify-content: center; gap: 15px;"><button class="m-btn m-btn-large" onclick="fastDrop()">DERRUBAR</button></div>
+        </div>
+    </section>
+
     <footer>
-        <p><span>Powered by PEGASUS Framework</span>.</p>
+        <p><span id="powered-text" style="cursor: grab; user-select: none; display: inline-block; transition: color 0.3s;">Powered by PEGASUS Framework</span><span class="ach-trigger" onclick="triggerXboxAchievement()" style="cursor:pointer; opacity: 0.05; padding: 10px;">.</span></p>
     </footer>
 
-    <!-- JS PRINCIPAL -->
+    <!-- SCRIPTS -->
     <script src="js/main.js"></script>
+    <script src="js/easter_eggs.js"></script>
 </body>
 </html>
